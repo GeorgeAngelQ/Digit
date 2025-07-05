@@ -11,6 +11,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="15.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Digitalizacion.EN\Digitalizacion.EN.csproj" />
     <ProjectReference Include="..\Library\Library.csproj" />
   </ItemGroup>
