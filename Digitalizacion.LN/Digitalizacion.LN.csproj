@@ -9,6 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Digitalizacion.DA\Digitalizacion.DA.csproj" />
     <ProjectReference Include="..\Digitalizacion.EN\Digitalizacion.EN.csproj" />
+    <ProjectReference Include="..\Digitalizacion.SEC\Digitalizacion.SEC.csproj" />
   </ItemGroup>
 
 </Project>

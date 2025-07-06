@@ -1,0 +1,27 @@
+﻿using Digitalizacion.LN;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Digitalizacion.UI.Controllers
+{
+    public class LoginController : Controller
+    {
+        [HttpPost]
+        [Route("login")]
+        public IActionResult Login([FromForm] string usuario, [FromForm] string contrasenia)
+        {
+            var ln = new UsuarioSistemaLN();
+            var usuarioValido = ln.Login(usuario, contrasenia);
+
+            if (usuarioValido != null)
+            {
+                HttpContext.Session.SetInt32("IdUsuario", usuarioValido.IdUsuario);
+                HttpContext.Session.SetString("Usuario", usuarioValido.Usuario);
+                HttpContext.Session.SetString("Rol", usuarioValido.Rol);
+                return Json(new { success = true });
+            }
+
+            return Json(new { success = false, message = "Usuario o contraseña inválidos" });
+        }
+
+    }
+}

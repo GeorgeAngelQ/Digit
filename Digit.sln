@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digitalizacion.API", "Digit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digitalizacion.UI", "Digitalizacion.UI\Digitalizacion.UI.csproj", "{AC950D0B-85CC-4356-8235-3C3039509C27}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digitalizacion.SEC", "Digitalizacion.SEC\Digitalizacion.SEC.csproj", "{2D2F8653-B523-47CE-8A73-D6526B259227}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{AC950D0B-85CC-4356-8235-3C3039509C27}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC950D0B-85CC-4356-8235-3C3039509C27}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC950D0B-85CC-4356-8235-3C3039509C27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D2F8653-B523-47CE-8A73-D6526B259227}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D2F8653-B523-47CE-8A73-D6526B259227}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D2F8653-B523-47CE-8A73-D6526B259227}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D2F8653-B523-47CE-8A73-D6526B259227}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

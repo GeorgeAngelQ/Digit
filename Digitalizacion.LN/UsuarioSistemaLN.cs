@@ -1,5 +1,6 @@
 ﻿using Digitalizacion.EN;
 using Digitalizacion.DA;
+using Digitalizacion.SEC;
 
 namespace Digitalizacion.LN
 {
@@ -7,6 +8,10 @@ namespace Digitalizacion.LN
     {
         public void Insert(UsuarioSistema enUsuarioSistema)
         {
+            if (!string.IsNullOrWhiteSpace(enUsuarioSistema.Contrasenia))
+            {
+                enUsuarioSistema.Contrasenia = PasswordHasher.HashPassword(enUsuarioSistema.Contrasenia);
+            }
             var usuarioSistemaDA = new UsuarioSistemaDA();
             usuarioSistemaDA.Insert(enUsuarioSistema);
         }
@@ -19,6 +24,10 @@ namespace Digitalizacion.LN
         }
         public void Update(int idUsuario, UsuarioSistema enUsuarioSistema)
         {
+            if (!string.IsNullOrWhiteSpace(enUsuarioSistema.Contrasenia))
+            {
+                enUsuarioSistema.Contrasenia = PasswordHasher.HashPassword(enUsuarioSistema.Contrasenia);
+            }
             var usuarioSistemaDA = new UsuarioSistemaDA();
             usuarioSistemaDA.Update(idUsuario, enUsuarioSistema);
         }
@@ -27,5 +36,11 @@ namespace Digitalizacion.LN
             var usuarioSistemaDA = new UsuarioSistemaDA();
             usuarioSistemaDA.Delete(idUsuario);
         }
+        public UsuarioSistema? Login(string usuario, string contrasenia)
+        {
+            var usuarioSistemaDA = new UsuarioSistemaDA();
+            return usuarioSistemaDA.Login(usuario, contrasenia);
+        }
+
     }
 }

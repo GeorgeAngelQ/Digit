@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Digitalizacion.EN\Digitalizacion.EN.csproj" />
+    <ProjectReference Include="..\Digitalizacion.LN\Digitalizacion.LN.csproj" />
     <ProjectReference Include="..\Library\Library.csproj" />
   </ItemGroup>
 

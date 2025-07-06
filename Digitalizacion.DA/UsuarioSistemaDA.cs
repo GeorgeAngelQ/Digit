@@ -210,6 +210,38 @@ namespace Digitalizacion.DA
                 }
             }
         }
+        public UsuarioSistema? Login(string usuario, string contrasenia)
+        {
+            UsuarioSistema? beUsuarioSistema = null;
+            SqlDataReader dr = null;
+
+            using (var sqlCon = new SqlConnection(CadenaDeConexion))
+            {
+                sqlCon.Open();
+                using (var sqlCmd = new SqlCommand("SELECT * FROM dbo.UsuarioSistema WHERE Usuario = @Usuario", sqlCon))
+                {
+                    sqlCmd.Parameters.Add("@Usuario", SqlDbType.VarChar).Value = usuario;
+
+                    dr = sqlCmd.ExecuteReader();
+                    if (dr.Read())
+                    {
+                        var contraseniaHash = Convert.ToString(dr["Contrasenia"]);
+                        if (BCrypt.Net.BCrypt.Verify(contrasenia, contraseniaHash))
+                        {
+                            beUsuarioSistema = new UsuarioSistema
+                            {
+                                IdUsuario = Convert.ToInt32(dr["IdUsuario"]),
+                                Usuario = Convert.ToString(dr["Usuario"]),
+                                Rol = Convert.ToString(dr["Rol"])
+                            };
+                        }
+                    }
+                }
+            }
+
+            return beUsuarioSistema;
+        }
+
         #endregion
     }
 }
