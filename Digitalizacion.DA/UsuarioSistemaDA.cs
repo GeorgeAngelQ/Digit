@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using Digitalizacion.EN;
+using Digitalizacion.SEC;
 using Libreria;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
@@ -49,13 +50,14 @@ namespace Digitalizacion.DA
                             {
                                 sqlCmd.Parameters.Add("@Usuario", SqlDbType.VarChar).Value = enUsuarioSistema.Usuario;
                             }
-                            if (string.IsNullOrWhiteSpace(enUsuarioSistema.Contrasenia))
+                            if (!string.IsNullOrWhiteSpace(enUsuarioSistema.Contrasenia))
                             {
-                                sqlCmd.Parameters.Add("@Contrasenia", SqlDbType.VarChar).Value = DBNull.Value;
+                                enUsuarioSistema.Contrasenia = PasswordHasher.HashPassword(enUsuarioSistema.Contrasenia);
+                                sqlCmd.Parameters.Add("@Contrasenia", SqlDbType.VarChar).Value = enUsuarioSistema.Contrasenia;
                             }
                             else
                             {
-                                sqlCmd.Parameters.Add("@Contrasenia", SqlDbType.VarChar).Value = enUsuarioSistema.Contrasenia;
+                                sqlCmd.Parameters.Add("@Contrasenia", SqlDbType.VarChar).Value = DBNull.Value;
                             }
                             if (string.IsNullOrWhiteSpace(enUsuarioSistema.Rol))
                             {
@@ -218,7 +220,7 @@ namespace Digitalizacion.DA
             using (var sqlCon = new SqlConnection(CadenaDeConexion))
             {
                 sqlCon.Open();
-                using (var sqlCmd = new SqlCommand("SELECT * FROM dbo.UsuarioSistema WHERE Usuario = @Usuario", sqlCon))
+                using (var sqlCmd = new SqlCommand("SELECT * FROM UsuarioSistema WHERE Usuario = @Usuario", sqlCon))
                 {
                     sqlCmd.Parameters.Add("@Usuario", SqlDbType.VarChar).Value = usuario;
 
@@ -226,7 +228,7 @@ namespace Digitalizacion.DA
                     if (dr.Read())
                     {
                         var contraseniaHash = Convert.ToString(dr["Contrasenia"]);
-                        if (BCrypt.Net.BCrypt.Verify(contrasenia, contraseniaHash))
+                        if (PasswordHasher.VerifyPassword(contrasenia, contraseniaHash))
                         {
                             beUsuarioSistema = new UsuarioSistema
                             {

@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Digitalizacion.EN\Digitalizacion.EN.csproj" />
+    <ProjectReference Include="..\Digitalizacion.SEC\Digitalizacion.SEC.csproj" />
     <ProjectReference Include="..\Library\Library.csproj" />
   </ItemGroup>
 

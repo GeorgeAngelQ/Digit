@@ -1,4 +1,7 @@
+using Libreria;
+
 var builder = WebApplication.CreateBuilder(args);
+ConfigDataAccess.SetConfiguration(builder.Configuration);
 
 // Add services to the container.
 

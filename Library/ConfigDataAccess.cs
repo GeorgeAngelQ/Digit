@@ -4,9 +4,21 @@ namespace Libreria
 {
     public class ConfigDataAccess
     {
-        private static readonly bool optional = false;
-        private static readonly bool reload = true;
-        private static readonly IConfigurationBuilder Builder = new ConfigurationBuilder().AddJsonFile("appsettings.json", optional, reload);
-        protected static readonly IConfigurationRoot Configuration = Builder.Build();
+        private static IConfigurationRoot? _configuration;
+
+        public static void SetConfiguration(IConfiguration configuration)
+        {
+            _configuration = (IConfigurationRoot)configuration;
+        }
+
+        protected static IConfigurationRoot Configuration
+        {
+            get
+            {
+                if (_configuration == null)
+                    throw new InvalidOperationException("No se ha inicializado la propiedad ConnectionString. Usa SetConfiguration en Program.cs.");
+                return _configuration;
+            }
+        }
     }
 }

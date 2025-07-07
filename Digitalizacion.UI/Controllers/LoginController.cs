@@ -5,6 +5,14 @@ namespace Digitalizacion.UI.Controllers
 {
     public class LoginController : Controller
     {
+        [HttpGet]
+        [Route("")]
+        [Route("login")]
+        public IActionResult Index()
+        {
+            return View();
+        }
+
         [HttpPost]
         [Route("login")]
         public IActionResult Login([FromForm] string usuario, [FromForm] string contrasenia)
