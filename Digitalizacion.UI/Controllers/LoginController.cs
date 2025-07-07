@@ -10,6 +10,10 @@ namespace Digitalizacion.UI.Controllers
         [Route("login")]
         public IActionResult Index()
         {
+            if (HttpContext.Session.GetInt32("IdUsuario") != null)
+            {
+                return RedirectToAction("Index", "Home"); 
+            }
             return View();
         }
 
@@ -30,6 +34,12 @@ namespace Digitalizacion.UI.Controllers
 
             return Json(new { success = false, message = "Usuario o contraseña inválidos" });
         }
-
+        [HttpGet]
+        [Route("logout")]
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear(); 
+            return RedirectToAction("Index", "Login");
+        }
     }
 }

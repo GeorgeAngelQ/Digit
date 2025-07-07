@@ -14,7 +14,7 @@
             },
             success: function (response) {
                 if (response.success) {
-                    window.location.href = "/mantenimiento/usuariosistema/index";
+                    window.location.href = "/home";
                 } else {
                     alert(response.message || "Credenciales incorrectas");
                 }

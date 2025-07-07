@@ -2,6 +2,7 @@
 using System.Text;
 using AutoMapper;
 using Digitalizacion.EN;
+using Digitalizacion.UI.Filters;
 using Digitalizacion.UI.Models;
 using Libreria;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,7 @@ using Newtonsoft.Json;
 
 namespace Digitalizacion.UI.Controllers
 {
+    [AuthorizeSession]
     [Route("mantenimiento/usuariosistema")]
     public class UsuarioSistemaController : Controller
     {
