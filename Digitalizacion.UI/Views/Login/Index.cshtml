@@ -1,9 +1,38 @@
-﻿<form id="LoginFrm">
-    <input id="UsuarioTxt" type="text" placeholder="Usuario" class="form-control mb-2" />
-    <input id="ContraseniaTxt" type="password" placeholder="Contraseña" class="form-control mb-2" />
-    <button id="LoginBtn" type="button" class="btn btn-primary">Iniciar sesión</button>
-</form>
-
-@section Scripts {
-    <script src="~/views/login/login.js"></script>
+﻿@{
+    Layout = null;
 }
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <title>Iniciar sesión</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+    <link rel="stylesheet" href="~/views/login/login.css" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/views/login/login.js"></script>
+</head>
+<body>
+    <div class="login-container">
+        <form class="login-box" id="LoginFrm">
+            <img src="~/views/assets/warmakuyay.png" alt="Logo" class="logo">
+            <h2>INICIAR SESIÓN</h2>
+
+            <label for="UsuarioTxt">Usuario:</label>
+            <div class="input-group">
+                <i class="fa-solid fa-user"></i>
+                <input type="text" id="UsuarioTxt" name="UsuarioTxt" required>
+            </div>
+
+            <label for="ContraseniaTxt">Contraseña:</label>
+            <div class="input-group">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" id="ContraseniaTxt" name="ContraseniaTxt" required>
+                <i class="fa-solid fa-eye" id="toggle"></i>
+            </div>
+
+            <button id="LoginBtn" type="submit">Ingresar</button>
+        </form>
+    </div>
+</body>
+</html>

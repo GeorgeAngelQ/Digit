@@ -1,22 +1,31 @@
-﻿$("#LoginBtn").on("click", function () {
-    const data = {
-        usuario: $("#UsuarioTxt").val(),
-        contrasenia: $("#ContraseniaTxt").val()
-    };
+﻿$(document).ready(function () {
+    $("#LoginFrm").on("submit", function (e) {
+        e.preventDefault(); 
 
-    $.ajax({
-        type: 'POST',
-        url: '/login',
-        data: data,
-        success: function (response) {
-            if (response.success) {
-                window.location.href = "/home/index";
-            } else {
-                alert(response.message);
+        const usuario = $("#UsuarioTxt").val();
+        const contrasenia = $("#ContraseniaTxt").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/login", 
+            data: {
+                usuario: usuario,
+                contrasenia: contrasenia
+            },
+            success: function (response) {
+                if (response.success) {
+                    window.location.href = "/mantenimiento/usuariosistema/index";
+                } else {
+                    alert(response.message || "Credenciales incorrectas");
+                }
+            },
+            error: function () {
+                alert("Error al procesar el login");
             }
-        },
-        error: function () {
-            alert("Error de red. Intente nuevamente.");
-        }
+        });
+    });
+    $("#toggle").on("click", function () {
+        const input = $("#ContraseniaTxt");
+        input.attr("type", input.attr("type") === "password" ? "text" : "password");
     });
 });

@@ -1,0 +1,88 @@
+﻿* {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body, html {
+    height: 100%;
+    margin: 0;
+    background-image: url('../assets/fondo.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.login-container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(2px);
+}
+
+.login-box {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 30px 40px;
+    border-radius: 25px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    text-align: center;
+    width: 320px;
+}
+
+.logo {
+    width: 80px;
+    margin-bottom: 10px;
+}
+
+h2 {
+    margin-bottom: 25px;
+    font-weight: normal;
+}
+
+label {
+    display: block;
+    text-align: left;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    padding: 8px 10px;
+}
+
+    .input-group .icon {
+        margin-right: 10px;
+    }
+
+    .input-group input {
+        border: none;
+        background: transparent;
+        flex: 1;
+        outline: none;
+        font-size: 14px;
+    }
+
+    .input-group #toggle {
+        cursor: pointer;
+    }
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+    button:hover {
+        background-color: #333;
+    }
