@@ -53,5 +53,24 @@ namespace Digitalizacion.API.Controllers
             var blUsuarioSistema = new UsuarioSistemaLN();
             blUsuarioSistema.Delete(idUsuario);
         }
+        [HttpGet]
+        [Route("list")]
+        public IActionResult List()
+        {
+            try
+            {
+                var blUsuarioSistema = new UsuarioSistemaLN();
+                var list = blUsuarioSistema.List();
+
+                if (list == null || !list.Any())
+                    return NotFound("No se encontraron usuarios");
+
+                return Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error interno del servidor: {ex.Message}");
+            }
+        }
     }
 }

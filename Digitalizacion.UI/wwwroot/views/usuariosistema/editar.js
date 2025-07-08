@@ -23,6 +23,8 @@ function fnUsuarioSistemaUpdate(dtoUsuarioSistema) {
 $("#GuardarBtn").on("click", function () {
     let dtoUsuarioSistema = {
         IdUsuario: $("#IdUsuarioTxt").val(),
+        NombreCompleto: $("#NombreCompletoTxt").val(),
+        CorreoElectronico: $('#CorreoElectronicoTxt').val(),
         Usuario: $("#UsuarioTxt").val(),
         Contrasenia: $("#ContraseniaTxt").val(),
         Rol: $("#RolTxt").val()

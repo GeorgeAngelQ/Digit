@@ -24,7 +24,9 @@ $("#GuardarBtn").on("click", function () {
     let dtoUsuarioSistema = {
         usuario: $("#UsuarioTxt").val(),
         contrasenia: $("#ContraseniaTxt").val(),
-        rol: $("#RolTxt").val()
+        rol: $("#RolTxt").val(),
+        nombrecompleto: $("#NombreCompletoTxt").val(),
+        correoelectronico: $('#CorreoElectronicoTxt').val()
     };
     fnUsuarioSistemaInsert(dtoUsuarioSistema);
     console.log(dtoUsuarioSistema);

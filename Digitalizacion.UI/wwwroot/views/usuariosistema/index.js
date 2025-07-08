@@ -1,83 +1,71 @@
 ﻿"use strict";
 $(document).ready(function () {
-    $("#FiltrarBtn").on("click", function () {
-        let filtro = $("#IdUsuarioTxt").val();
-        if (filtro) {
-            fnUsuarioSistemaFiltrar(filtro);
-        }
-        else {
-            alert("Por favor ingrese un ID para buscar")
-        }
+    fnCargarUsuarios();
+    $("#FiltroTxt").on("input", function () {
+        const texto = $(this).val().toLowerCase();
+        $("#UsuarioSistemaBody tr").each(function () {
+            const usuario = $(this).find("td:first").text().toLowerCase();
+            $(this).toggle(usuario.includes(texto));
+        });
     });
-
-    function fnUsuarioSistemaFiltrar(idUsuario) {
+    function fnCargarUsuarios() {
         $.ajax({
             type: 'GET',
-            cache: false,
-            async: true,
-            dataType: "json",
-            url: "https://localhost:7179/mantenimiento/usuariosistema/select-by-id/" + idUsuario,
+            url: "https://localhost:7240/api/usuariosistema/list",
             success: function (data) {
-                if (data) {
-                    console.log("Usuario encontrado:", data);
-                    $("#ResultadosDiv").html(`
-                        <div class="card p-3 mt-3">
-                            <h5>Usuario: ${data.usuario}</h5>
-                            <p>Contrasenia: ${data.contrasenia}</p>
-                            <p>Rol: ${data.rol}</p>
-                        </div>
-                    `);
-                }
-                else {
-                    alert("Usuario no encontrado")
+                if (data && Array.isArray(data)) {
+                    $("#UsuarioSistemaBody").empty();
+                    data.forEach(usuario => {
+                        $("#UsuarioSistemaBody").append(`
+                            <tr>
+                                <td>${usuario.usuario}</td>
+                                <td>••••••••</td>
+                                <td>${usuario.nombreCompleto || ''}</td>
+                                <td>${usuario.correoElectronico || ''}</td>
+                                <td>${usuario.rol || ''}</td>
+                                <td>
+                                    <button class="btn btn-warning btn-sm me-1 EditarBtn" data-id="${usuario.idUsuario}">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </button>
+                                    <button class="btn btn-danger btn-sm EliminarBtn" data-id="${usuario.idUsuario}">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        `);
+                    });
+                    $(".EditarBtn").on("click", function () {
+                        const id = $(this).data("id");
+                        window.location.href = "/mantenimiento/usuariosistema/editar/" + id;
+                    });
+
+                    $("EliminarBtn").on("click", function () {
+                        const id = $(this).data("id");
+                        if (confirm("¿Deseas eliminar este usuario?")) {
+                            fnEliminarUsuario(id);
+                        }
+                    });
+                } else {
+                    alert("No se encontraron usuarios.");
                 }
             },
-            error(param1, param2, param3) {
-                console.error("param1", param1);
-                console.error("param2", param2);
-                console.error("param3", param3);
-                alert("Error al buscar el usuario. Por favor, intente nuevamente.");
+            error: function () {
+                alert("Error al cargar los usuarios.");
             }
-
         });
     }
-    function fnUsuarioSistemaDelete(idUsuario) {
+
+    function fnEliminarUsuario(idUsuario) {
         $.ajax({
             type: 'DELETE',
-            cache: false,
-            async: true,
-            dataType: "text",
             url: "https://localhost:7179/mantenimiento/usuariosistema/delete/" + idUsuario,
             success: function () {
-                alert("Usuario eliminado exitosamente: " + idUsuario);
-                window.location.href = "/mantenimiento/usuariosistema/index"
+                alert("Usuario eliminado correctamente.");
+                fnCargarUsuarios();
             },
-            error(param1, param2, param3) {
-                console.error("param1", param1);
-                console.error("param2", param2);
-                console.error("param3", param3);
-                alert("Error al eliminar el usuario. Por favor, intente nuevamente.");
+            error: function () {
+                alert("Error al eliminar el usuario.");
             }
         });
     }
-    $("#EditarBtn").on("click", function () {
-        let idUsuario = $("#IdUsuarioTxt").val();
-
-        if (idUsuario) {
-            window.location.href = "https://localhost:7179/mantenimiento/usuariosistema/editar/" + idUsuario;
-        }
-        else {
-            alert("Por favor ingrese un ID para editar");
-        }
-    });
-    $("#EliminarBtn").on("click", function () {
-        let idUsuario = $("#IdUsuarioTxt").val();
-        if (idUsuario) {
-            if (confirm("¿Estás seguro que deseas eliminar ese usuario?")) {
-                fnUsuarioSistemaDelete(idUsuario);
-            }
-        } else {
-            alert("Por favor ingrese un ID de usuario para editar.");
-        }
-    });
 });

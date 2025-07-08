@@ -1,9 +1,11 @@
 using System.Diagnostics;
+using Digitalizacion.UI.Filters;
 using Digitalizacion.UI.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Digitalizacion.UI.Controllers
 {
+    [AuthorizeSession]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

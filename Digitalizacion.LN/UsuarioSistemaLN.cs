@@ -24,13 +24,21 @@ namespace Digitalizacion.LN
         }
         public void Update(int idUsuario, UsuarioSistema enUsuarioSistema)
         {
+            var usuarioSistemaDA = new UsuarioSistemaDA();
+
             if (!string.IsNullOrWhiteSpace(enUsuarioSistema.Contrasenia))
             {
                 enUsuarioSistema.Contrasenia = PasswordHasher.HashPassword(enUsuarioSistema.Contrasenia);
             }
-            var usuarioSistemaDA = new UsuarioSistemaDA();
+            else
+            {
+                var usuarioActual = usuarioSistemaDA.SelectById(idUsuario);
+                enUsuarioSistema.Contrasenia = usuarioActual.Contrasenia;
+            }
+
             usuarioSistemaDA.Update(idUsuario, enUsuarioSistema);
         }
+
         public void Delete(int idUsuario)
         {
             var usuarioSistemaDA = new UsuarioSistemaDA();
@@ -40,6 +48,11 @@ namespace Digitalizacion.LN
         {
             var usuarioSistemaDA = new UsuarioSistemaDA();
             return usuarioSistemaDA.Login(usuario, contrasenia);
+        }
+        public List<UsuarioSistema> List()
+        {
+            var usuarioSistemaDA = new UsuarioSistemaDA();
+            return usuarioSistemaDA.List();
         }
 
     }

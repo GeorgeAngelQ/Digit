@@ -12,8 +12,19 @@
 
     <main class="container">
         <div class="row justify-content-center mb-3">
-
             <input id="IdUsuarioTxt" type="hidden" value="@ViewBag.IdUsuario" />
+            <div class="col-md-6">
+                <label for="NombreCompletoTxt" class="form-label">Nombre Completo</label>
+                <input id="NombreCompletoTxt" type="text" class="form-control" value="@ViewBag.UsuarioSistema.NombreCompleto" />
+            </div>
+        </div>
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-6">
+                <label for="CorreoElectronicoTxt" class="form-label">Corrreo Electronico</label>
+                <input id="CorreoElectronicoTxt" type="text" class="form-control" value="@ViewBag.UsuarioSistema.CorreoElectronico" />
+            </div>
+        </div>
+        <div class="row justify-content-center mb-3">
             <div class="col-md-6">
                 <label for="UsuarioTxt" class="form-label">Usuario</label>
                 <input id="UsuarioTxt" type="text" class="form-control" value="@ViewBag.UsuarioSistema.Usuario"/>
@@ -22,7 +33,7 @@
         <div class="row justify-content-center mb-3">
             <div class="col-md-6">
                 <label for="ContraseniaTxt" class="form-label">Contraseña</label>
-                <input id="ContraseniaTxt" type="password" class="form-control" value="@ViewBag.UsuarioSistema.Contrasenia" />
+                <input id="ContraseniaTxt" type="password" class="form-control" placeholder="Dejar vacio si no desea cambiar" />
             </div>
         </div>
         <div class="row justify-content-center mb-3">
@@ -30,7 +41,7 @@
                 <label for="RolTxt" class="form-label">Rol</label>
                 <input id="RolTxt" type="text" class="form-control" value="@ViewBag.UsuarioSistema.Rol"/>
             </div>
-        </div>
+        </div>    
         <div class="row justify-content-center">
             <div class="col-auto">
                 <button id="GuardarBtn" type="button" class="btn btn-success me-2">Guardar</button>

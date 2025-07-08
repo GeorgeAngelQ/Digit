@@ -6,7 +6,7 @@
 body, html {
     height: 100%;
     margin: 0;
-    background-image: url('../assets/fondo.jpg');
+    background-image: url('../assets/fondo1.png');
     background-size: cover;
     background-position: center;
 }

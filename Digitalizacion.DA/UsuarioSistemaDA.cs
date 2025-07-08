@@ -67,6 +67,22 @@ namespace Digitalizacion.DA
                             {
                                 sqlCmd.Parameters.Add("@Rol", SqlDbType.VarChar).Value = enUsuarioSistema.Rol;
                             }
+                            if (string.IsNullOrWhiteSpace(enUsuarioSistema.NombreCompleto))
+                            {
+                                sqlCmd.Parameters.Add("@NombreCompleto", SqlDbType.VarChar).Value = DBNull.Value;
+                            }
+                            else
+                            {
+                                sqlCmd.Parameters.Add("@NombreCompleto", SqlDbType.VarChar).Value = enUsuarioSistema.NombreCompleto;
+                            }
+                            if (string.IsNullOrWhiteSpace(enUsuarioSistema.CorreoElectronico))
+                            {
+                                sqlCmd.Parameters.Add("@CorreoElectronico", SqlDbType.VarChar).Value = DBNull.Value;
+                            }
+                            else
+                            {
+                                sqlCmd.Parameters.Add("@CorreoElectronico", SqlDbType.VarChar).Value = enUsuarioSistema.CorreoElectronico;
+                            }
                             sqlCmd.ExecuteNonQuery();
                             tran.Commit();
                         }
@@ -112,6 +128,14 @@ namespace Digitalizacion.DA
                             if (dr["Rol"] != DBNull.Value)
                             {
                                 beUsuarioSistema.Rol = Convert.ToString(dr["Rol"]);
+                            }
+                            if (dr["NombreCompleto"] != DBNull.Value)
+                            {
+                                beUsuarioSistema.NombreCompleto = Convert.ToString(dr["NombreCompleto"]);
+                            }
+                            if (dr["CorreoElectronico"] != DBNull.Value)
+                            {
+                                beUsuarioSistema.CorreoElectronico = Convert.ToString(dr["CorreoElectronico"]);
                             }
                         }
                     }
@@ -169,6 +193,22 @@ namespace Digitalizacion.DA
                             else
                             {
                                 sqlCmd.Parameters.Add("@Rol", SqlDbType.VarChar).Value = enUsuarioSistema.Rol;
+                            }
+                            if (string.IsNullOrWhiteSpace(enUsuarioSistema.NombreCompleto))
+                            {
+                                sqlCmd.Parameters.Add("@NombreCompleto", SqlDbType.VarChar).Value = DBNull.Value;
+                            }
+                            else
+                            {
+                                sqlCmd.Parameters.Add("@NombreCompleto", SqlDbType.VarChar).Value = enUsuarioSistema.NombreCompleto;
+                            }
+                            if (string.IsNullOrWhiteSpace(enUsuarioSistema.CorreoElectronico))
+                            {
+                                sqlCmd.Parameters.Add("@CorreoElectronico", SqlDbType.VarChar).Value = DBNull.Value;
+                            }
+                            else
+                            {
+                                sqlCmd.Parameters.Add("@CorreoElectronico", SqlDbType.VarChar).Value = enUsuarioSistema.CorreoElectronico;
                             }
                             sqlCmd.ExecuteNonQuery();
                             tran.Commit();
@@ -234,7 +274,9 @@ namespace Digitalizacion.DA
                             {
                                 IdUsuario = Convert.ToInt32(dr["IdUsuario"]),
                                 Usuario = Convert.ToString(dr["Usuario"]),
-                                Rol = Convert.ToString(dr["Rol"])
+                                Rol = Convert.ToString(dr["Rol"]),
+                                NombreCompleto = Convert.ToString(dr["NombreCompleto"]),
+                                CorreoElectronico = Convert.ToString(dr["CorreoElectronico"])
                             };
                         }
                     }
@@ -243,6 +285,36 @@ namespace Digitalizacion.DA
 
             return beUsuarioSistema;
         }
+        public List<UsuarioSistema> List()
+        {
+            var lista = new List<UsuarioSistema>();
+
+            using (var sqlCon = new SqlConnection(CadenaDeConexion))
+            {
+                sqlCon.Open();
+                using (var sqlCmd = new SqlCommand("SELECT IdUsuario, Usuario, Rol,NombreCompleto, CorreoElectronico FROM UsuarioSistema", sqlCon))
+                {
+                    using (var dr = sqlCmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            var usuario = new UsuarioSistema
+                            {
+                                IdUsuario = Convert.ToInt32(dr["IdUsuario"]),
+                                Usuario = Convert.ToString(dr["Usuario"]),
+                                Rol = Convert.ToString(dr["Rol"]),
+                                NombreCompleto = Convert.ToString(dr["NombreCompleto"]),
+                                CorreoElectronico = Convert.ToString(dr["CorreoElectronico"])
+                            };
+                            lista.Add(usuario);
+                        }
+                    }
+                }
+            }
+
+            return lista;
+        }
+
 
         #endregion
     }
