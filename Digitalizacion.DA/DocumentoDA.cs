@@ -44,37 +44,40 @@ namespace Digitalizacion.DA
                             sqlCmd.CommandType = CommandType.StoredProcedure;
                             sqlCmd.Transaction = tran;
                             sqlCmd.CommandTimeout = 0;
-
-                            if (enDocumento.IdProceso.HasValue)
-                                sqlCmd.Parameters.Add("@IdProceso", SqlDbType.Int).Value = enDocumento.IdProceso;
-                            else
-                                sqlCmd.Parameters.Add("@IdProceso", SqlDbType.Int).Value = DBNull.Value;
-
+                            
+                            sqlCmd.Parameters.Add("@IdProceso", SqlDbType.Int).Value = enDocumento.IdProceso;
                             if (string.IsNullOrWhiteSpace(enDocumento.NombreDocumento))
+                            {
                                 sqlCmd.Parameters.Add("@NombreDocumento", SqlDbType.VarChar).Value = DBNull.Value;
+                            }
                             else
+                            {
                                 sqlCmd.Parameters.Add("@NombreDocumento", SqlDbType.VarChar).Value = enDocumento.NombreDocumento;
-
+                            }
                             if (string.IsNullOrWhiteSpace(enDocumento.TipoDocumento))
+                            {
                                 sqlCmd.Parameters.Add("@TipoDocumento", SqlDbType.VarChar).Value = DBNull.Value;
+                            }
                             else
+                            {
                                 sqlCmd.Parameters.Add("@TipoDocumento", SqlDbType.VarChar).Value = enDocumento.TipoDocumento;
-
+                            }
                             if (string.IsNullOrWhiteSpace(enDocumento.FormatoDocumento))
+                            {
                                 sqlCmd.Parameters.Add("@FormatoDocumento", SqlDbType.VarChar).Value = DBNull.Value;
+                            }
                             else
+                            {
                                 sqlCmd.Parameters.Add("@FormatoDocumento", SqlDbType.VarChar).Value = enDocumento.FormatoDocumento;
-
-                            if (enDocumento.FechaDigitalizacion.HasValue)
-                                sqlCmd.Parameters.Add("@FechaDigitalizacion", SqlDbType.Date).Value = enDocumento.FechaDigitalizacion;
-                            else
-                                sqlCmd.Parameters.Add("@FechaDigitalizacion", SqlDbType.Date).Value = DBNull.Value;
-
+                            }
                             if (string.IsNullOrWhiteSpace(enDocumento.Estado_Documento))
+                            {
                                 sqlCmd.Parameters.Add("@Estado_Documento", SqlDbType.VarChar).Value = DBNull.Value;
+                            }
                             else
+                            {
                                 sqlCmd.Parameters.Add("@Estado_Documento", SqlDbType.VarChar).Value = enDocumento.Estado_Documento;
-
+                            }
                             sqlCmd.ExecuteNonQuery();
                             tran.Commit();
                         }
@@ -114,22 +117,29 @@ namespace Digitalizacion.DA
                             beDocumento.IdDocumento = Convert.ToInt32(dr["IdDocumento"]);
 
                             if (dr["IdProceso"] != DBNull.Value)
+                            {
                                 beDocumento.IdProceso = Convert.ToInt32(dr["IdProceso"]);
-
+                            }
                             if (dr["NombreDocumento"] != DBNull.Value)
+                            {
                                 beDocumento.NombreDocumento = Convert.ToString(dr["NombreDocumento"]);
-
+                            }
                             if (dr["TipoDocumento"] != DBNull.Value)
+                            {
                                 beDocumento.TipoDocumento = Convert.ToString(dr["TipoDocumento"]);
-
+                            }
                             if (dr["FormatoDocumento"] != DBNull.Value)
+                            {
                                 beDocumento.FormatoDocumento = Convert.ToString(dr["FormatoDocumento"]);
-
+                            }
                             if (dr["FechaDigitalizacion"] != DBNull.Value)
+                            {
                                 beDocumento.FechaDigitalizacion = Convert.ToDateTime(dr["FechaDigitalizacion"]);
-
+                            }
                             if (dr["Estado_Documento"] != DBNull.Value)
+                            {
                                 beDocumento.Estado_Documento = Convert.ToString(dr["Estado_Documento"]);
+                            }
                         }
                     }
                 }
@@ -165,37 +175,39 @@ namespace Digitalizacion.DA
                             sqlCmd.CommandTimeout = 0;
 
                             sqlCmd.Parameters.Add("@IdDocumento", SqlDbType.Int).Value = idDocumento;
-
-                            if (enDocumento.IdProceso.HasValue)
-                                sqlCmd.Parameters.Add("@IdProceso", SqlDbType.Int).Value = enDocumento.IdProceso;
-                            else
-                                sqlCmd.Parameters.Add("@IdProceso", SqlDbType.Int).Value = DBNull.Value;
-
+                            sqlCmd.Parameters.Add("@IdProceso", SqlDbType.Int).Value = enDocumento.IdProceso;
                             if (string.IsNullOrWhiteSpace(enDocumento.NombreDocumento))
+                            {
                                 sqlCmd.Parameters.Add("@NombreDocumento", SqlDbType.VarChar).Value = DBNull.Value;
+                            }
                             else
+                            {
                                 sqlCmd.Parameters.Add("@NombreDocumento", SqlDbType.VarChar).Value = enDocumento.NombreDocumento;
-
+                            }
                             if (string.IsNullOrWhiteSpace(enDocumento.TipoDocumento))
+                            {
                                 sqlCmd.Parameters.Add("@TipoDocumento", SqlDbType.VarChar).Value = DBNull.Value;
+                            }
                             else
+                            {
                                 sqlCmd.Parameters.Add("@TipoDocumento", SqlDbType.VarChar).Value = enDocumento.TipoDocumento;
-
+                            }
                             if (string.IsNullOrWhiteSpace(enDocumento.FormatoDocumento))
+                            {
                                 sqlCmd.Parameters.Add("@FormatoDocumento", SqlDbType.VarChar).Value = DBNull.Value;
+                            }
                             else
+                            {
                                 sqlCmd.Parameters.Add("@FormatoDocumento", SqlDbType.VarChar).Value = enDocumento.FormatoDocumento;
-
-                            if (enDocumento.FechaDigitalizacion.HasValue)
-                                sqlCmd.Parameters.Add("@FechaDigitalizacion", SqlDbType.Date).Value = enDocumento.FechaDigitalizacion;
-                            else
-                                sqlCmd.Parameters.Add("@FechaDigitalizacion", SqlDbType.Date).Value = DBNull.Value;
-
+                            }
                             if (string.IsNullOrWhiteSpace(enDocumento.Estado_Documento))
+                            {
                                 sqlCmd.Parameters.Add("@Estado_Documento", SqlDbType.VarChar).Value = DBNull.Value;
+                            }
                             else
+                            {
                                 sqlCmd.Parameters.Add("@Estado_Documento", SqlDbType.VarChar).Value = enDocumento.Estado_Documento;
-
+                            }
                             sqlCmd.ExecuteNonQuery();
                             tran.Commit();
                         }

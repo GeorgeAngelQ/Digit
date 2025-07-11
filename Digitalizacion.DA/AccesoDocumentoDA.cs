@@ -44,31 +44,16 @@ namespace Digitalizacion.DA
                             sqlCmd.Transaction = tran;
                             sqlCmd.CommandTimeout = 0;
 
-                            sqlCmd.Parameters.Add("@IdAcceso", SqlDbType.Int).Value = enAccesoDocumento.IdAcceso;
-
-                            if (enAccesoDocumento.IdDocumento.HasValue)
-                            {
-                                sqlCmd.Parameters.Add("@IdDocumento", SqlDbType.Int).Value = enAccesoDocumento.IdDocumento;
-                            }
-                            else
-                            {
-                                sqlCmd.Parameters.Add("@IdDocumento", SqlDbType.Int).Value = DBNull.Value;
-                            }
-                            if (enAccesoDocumento.IdUsuario.HasValue)
-                                sqlCmd.Parameters.Add("@IdUsuario", SqlDbType.Int).Value = enAccesoDocumento.IdUsuario;
-                            else
-                                sqlCmd.Parameters.Add("@IdUsuario", SqlDbType.Int).Value = DBNull.Value;
-
-                            if (enAccesoDocumento.FechaAcceso.HasValue)
-                                sqlCmd.Parameters.Add("@FechaAcceso", SqlDbType.Date).Value = enAccesoDocumento.FechaAcceso;
-                            else
-                                sqlCmd.Parameters.Add("@FechaAcceso", SqlDbType.Date).Value = DBNull.Value;
-
+                            sqlCmd.Parameters.Add("@IdDocumento", SqlDbType.Int).Value = enAccesoDocumento.IdDocumento;
+                            sqlCmd.Parameters.Add("@IdUsuario", SqlDbType.Int).Value = enAccesoDocumento.IdUsuario;
                             if (string.IsNullOrWhiteSpace(enAccesoDocumento.TipoAcceso))
+                            {
                                 sqlCmd.Parameters.Add("@TipoAcceso", SqlDbType.VarChar).Value = DBNull.Value;
+                            }
                             else
+                            {
                                 sqlCmd.Parameters.Add("@TipoAcceso", SqlDbType.VarChar).Value = enAccesoDocumento.TipoAcceso;
-
+                            }
                             sqlCmd.ExecuteNonQuery();
                             tran.Commit();
                         }
@@ -106,18 +91,15 @@ namespace Digitalizacion.DA
                         {
                             beAccesoDocumento = new AccesoDocumento();
                             beAccesoDocumento.IdAcceso = Convert.ToInt32(dr["IdAcceso"]);
-
-                            if (dr["IdDocumento"] != DBNull.Value)
-                                beAccesoDocumento.IdDocumento = Convert.ToInt32(dr["IdDocumento"]);
-
-                            if (dr["IdUsuario"] != DBNull.Value)
-                                beAccesoDocumento.IdUsuario = Convert.ToInt32(dr["IdUsuario"]);
-
+                            beAccesoDocumento.IdDocumento = Convert.ToInt32(dr["IdDocumento"]);
+                            beAccesoDocumento.IdUsuario = Convert.ToInt32(dr["IdUsuario"]);
                             if (dr["FechaAcceso"] != DBNull.Value)
+                            {
                                 beAccesoDocumento.FechaAcceso = Convert.ToDateTime(dr["FechaAcceso"]);
-
-                            if (dr["TipoAcceso"] != DBNull.Value)
-                                beAccesoDocumento.TipoAcceso = Convert.ToString(dr["TipoAcceso"]);
+                            }
+                            if (dr["TipoAcceso"] != DBNull.Value) { 
+                            beAccesoDocumento.TipoAcceso = Convert.ToString(dr["TipoAcceso"]);
+                            }
                         }
                     }
                 }
@@ -152,27 +134,16 @@ namespace Digitalizacion.DA
                             sqlCmd.CommandTimeout = 0;
 
                             sqlCmd.Parameters.Add("@IdAcceso", SqlDbType.Int).Value = idAcceso;
-
-                            if (enAccesoDocumento.IdDocumento.HasValue)
-                                sqlCmd.Parameters.Add("@IdDocumento", SqlDbType.Int).Value = enAccesoDocumento.IdDocumento;
-                            else
-                                sqlCmd.Parameters.Add("@IdDocumento", SqlDbType.Int).Value = DBNull.Value;
-
-                            if (enAccesoDocumento.IdUsuario.HasValue)
-                                sqlCmd.Parameters.Add("@IdUsuario", SqlDbType.Int).Value = enAccesoDocumento.IdUsuario;
-                            else
-                                sqlCmd.Parameters.Add("@IdUsuario", SqlDbType.Int).Value = DBNull.Value;
-
-                            if (enAccesoDocumento.FechaAcceso.HasValue)
-                                sqlCmd.Parameters.Add("@FechaAcceso", SqlDbType.Date).Value = enAccesoDocumento.FechaAcceso;
-                            else
-                                sqlCmd.Parameters.Add("@FechaAcceso", SqlDbType.Date).Value = DBNull.Value;
-
+                            sqlCmd.Parameters.Add("@IdDocumento", SqlDbType.Int).Value = enAccesoDocumento.IdDocumento;
+                            sqlCmd.Parameters.Add("@IdUsuario", SqlDbType.Int).Value = enAccesoDocumento.IdUsuario;
                             if (string.IsNullOrWhiteSpace(enAccesoDocumento.TipoAcceso))
+                            {
                                 sqlCmd.Parameters.Add("@TipoAcceso", SqlDbType.VarChar).Value = DBNull.Value;
+                            }
                             else
+                            {
                                 sqlCmd.Parameters.Add("@TipoAcceso", SqlDbType.VarChar).Value = enAccesoDocumento.TipoAcceso;
-
+                            }
                             sqlCmd.ExecuteNonQuery();
                             tran.Commit();
                         }

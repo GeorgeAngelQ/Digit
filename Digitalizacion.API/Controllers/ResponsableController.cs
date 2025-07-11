@@ -30,7 +30,7 @@ namespace Digitalizacion.API.Controllers
             }
         }
         [HttpGet]
-        [Route("select-by-id/{id}")]
+        [Route("select-by-id/{idResponsable}")]
         public Responsable SelectById(int idResponsable)
         {
             var blResponsable = new ResponsableLN();

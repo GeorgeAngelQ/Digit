@@ -45,43 +45,33 @@ namespace Digitalizacion.DA
                             sqlCmd.Transaction = tran;
                             sqlCmd.CommandTimeout = 0;
 
-                            sqlCmd.Parameters.Add("@IdProceso", SqlDbType.Int).Value = enProceso.IdProceso;
-
-                            if (enProceso.IdResponsable.HasValue)
-                                sqlCmd.Parameters.Add("@IdResponsable", SqlDbType.Int).Value = enProceso.IdResponsable;
-                            else
-                                sqlCmd.Parameters.Add("@IdResponsable", SqlDbType.Int).Value = DBNull.Value;
-
-                            if (enProceso.IdDepartamento.HasValue)
-                                sqlCmd.Parameters.Add("@IdDepartamento", SqlDbType.Int).Value = enProceso.IdDepartamento;
-                            else
-                                sqlCmd.Parameters.Add("@IdDepartamento", SqlDbType.Int).Value = DBNull.Value;
-
-                            if (enProceso.IdEquipo.HasValue)
-                                sqlCmd.Parameters.Add("@IdEquipo", SqlDbType.Int).Value = enProceso.IdEquipo;
-                            else
-                                sqlCmd.Parameters.Add("@IdEquipo", SqlDbType.Int).Value = DBNull.Value;
-
-                            if (enProceso.FechaInicio.HasValue)
-                                sqlCmd.Parameters.Add("@FechaInicio", SqlDbType.Date).Value = enProceso.FechaInicio;
-                            else
-                                sqlCmd.Parameters.Add("@FechaInicio", SqlDbType.Date).Value = DBNull.Value;
-
+                            sqlCmd.Parameters.Add("@IdResponsable", SqlDbType.Int).Value = enProceso.IdResponsable;
+                            sqlCmd.Parameters.Add("@IdDepartamento", SqlDbType.Int).Value = enProceso.IdDepartamento;
+                            sqlCmd.Parameters.Add("@IdEquipo", SqlDbType.Int).Value = enProceso.IdEquipo;
                             if (enProceso.FechaFin.HasValue)
+                            {
                                 sqlCmd.Parameters.Add("@FechaFin", SqlDbType.Date).Value = enProceso.FechaFin;
+                            }
                             else
+                            {
                                 sqlCmd.Parameters.Add("@FechaFin", SqlDbType.Date).Value = DBNull.Value;
-
+                            }
                             if (string.IsNullOrWhiteSpace(enProceso.Estado))
+                            {
                                 sqlCmd.Parameters.Add("@Estado", SqlDbType.VarChar).Value = DBNull.Value;
+                            }
                             else
+                            {
                                 sqlCmd.Parameters.Add("@Estado", SqlDbType.VarChar).Value = enProceso.Estado;
-
+                            }
                             if (string.IsNullOrWhiteSpace(enProceso.Prioridad))
+                            {
                                 sqlCmd.Parameters.Add("@Prioridad", SqlDbType.VarChar).Value = DBNull.Value;
+                            }
                             else
+                            {
                                 sqlCmd.Parameters.Add("@Prioridad", SqlDbType.VarChar).Value = enProceso.Prioridad;
-
+                            }
                             sqlCmd.ExecuteNonQuery();
                             tran.Commit();
                         }
@@ -119,27 +109,25 @@ namespace Digitalizacion.DA
                         {
                             beProceso = new Proceso();
                             beProceso.IdProceso = Convert.ToInt32(dr["IdProceso"]);
-
-                            if (dr["IdResponsable"] != DBNull.Value)
-                                beProceso.IdResponsable = Convert.ToInt32(dr["IdResponsable"]);
-
-                            if (dr["IdDepartamento"] != DBNull.Value)
-                                beProceso.IdDepartamento = Convert.ToInt32(dr["IdDepartamento"]);
-
-                            if (dr["IdEquipo"] != DBNull.Value)
-                                beProceso.IdEquipo = Convert.ToInt32(dr["IdEquipo"]);
-
+                            beProceso.IdResponsable = Convert.ToInt32(dr["IdResponsable"]);
+                            beProceso.IdDepartamento = Convert.ToInt32(dr["IdDepartamento"]);
+                            beProceso.IdEquipo = Convert.ToInt32(dr["IdEquipo"]);
                             if (dr["FechaInicio"] != DBNull.Value)
+                            {
                                 beProceso.FechaInicio = Convert.ToDateTime(dr["FechaInicio"]);
-
+                            }
                             if (dr["FechaFin"] != DBNull.Value)
+                            {
                                 beProceso.FechaFin = Convert.ToDateTime(dr["FechaFin"]);
-
+                            }
                             if (dr["Estado"] != DBNull.Value)
+                            {
                                 beProceso.Estado = Convert.ToString(dr["Estado"]);
-
+                            }
                             if (dr["Prioridad"] != DBNull.Value)
+                            {
                                 beProceso.Prioridad = Convert.ToString(dr["Prioridad"]);
+                            }
                         }
                     }
                 }
@@ -175,42 +163,33 @@ namespace Digitalizacion.DA
                             sqlCmd.CommandTimeout = 0;
 
                             sqlCmd.Parameters.Add("@IdProceso", SqlDbType.Int).Value = idProceso;
-
-                            if (enProceso.IdResponsable.HasValue)
-                                sqlCmd.Parameters.Add("@IdResponsable", SqlDbType.Int).Value = enProceso.IdResponsable;
-                            else
-                                sqlCmd.Parameters.Add("@IdResponsable", SqlDbType.Int).Value = DBNull.Value;
-
-                            if (enProceso.IdDepartamento.HasValue)
-                                sqlCmd.Parameters.Add("@IdDepartamento", SqlDbType.Int).Value = enProceso.IdDepartamento;
-                            else
-                                sqlCmd.Parameters.Add("@IdDepartamento", SqlDbType.Int).Value = DBNull.Value;
-
-                            if (enProceso.IdEquipo.HasValue)
-                                sqlCmd.Parameters.Add("@IdEquipo", SqlDbType.Int).Value = enProceso.IdEquipo;
-                            else
-                                sqlCmd.Parameters.Add("@IdEquipo", SqlDbType.Int).Value = DBNull.Value;
-
-                            if (enProceso.FechaInicio.HasValue)
-                                sqlCmd.Parameters.Add("@FechaInicio", SqlDbType.Date).Value = enProceso.FechaInicio;
-                            else
-                                sqlCmd.Parameters.Add("@FechaInicio", SqlDbType.Date).Value = DBNull.Value;
-
+                            sqlCmd.Parameters.Add("@IdResponsable", SqlDbType.Int).Value = enProceso.IdResponsable;
+                            sqlCmd.Parameters.Add("@IdDepartamento", SqlDbType.Int).Value = enProceso.IdDepartamento;
+                            sqlCmd.Parameters.Add("@IdEquipo", SqlDbType.Int).Value = enProceso.IdEquipo;
                             if (enProceso.FechaFin.HasValue)
+                            {
                                 sqlCmd.Parameters.Add("@FechaFin", SqlDbType.Date).Value = enProceso.FechaFin;
+                            }
                             else
+                            {
                                 sqlCmd.Parameters.Add("@FechaFin", SqlDbType.Date).Value = DBNull.Value;
-
+                            }
                             if (string.IsNullOrWhiteSpace(enProceso.Estado))
+                            {
                                 sqlCmd.Parameters.Add("@Estado", SqlDbType.VarChar).Value = DBNull.Value;
+                            }
                             else
+                            {
                                 sqlCmd.Parameters.Add("@Estado", SqlDbType.VarChar).Value = enProceso.Estado;
-
+                            }
                             if (string.IsNullOrWhiteSpace(enProceso.Prioridad))
+                            {
                                 sqlCmd.Parameters.Add("@Prioridad", SqlDbType.VarChar).Value = DBNull.Value;
+                            }
                             else
+                            {
                                 sqlCmd.Parameters.Add("@Prioridad", SqlDbType.VarChar).Value = enProceso.Prioridad;
-
+                            }
                             sqlCmd.ExecuteNonQuery();
                             tran.Commit();
                         }

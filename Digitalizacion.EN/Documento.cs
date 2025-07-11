@@ -6,7 +6,7 @@ namespace Digitalizacion.EN
     {
         [Key]
         public int IdDocumento { get; set; }
-        public int? IdProceso { get; set; }
+        public int IdProceso { get; set; }
         public string? NombreDocumento { get; set; }
         public string? TipoDocumento { get; set; }
         public string? FormatoDocumento { get; set; }
