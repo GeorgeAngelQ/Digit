@@ -9,6 +9,9 @@ namespace Digitalizacion.UI.Models
         {
             CreateMap<UsuarioSistemaModel, UsuarioSistema>();
             CreateMap<UsuarioSistema, UsuarioSistemaModel>();
+
+            CreateMap<EquipoDigitalizacionModel, EquipoDigitalizacion>();
+            CreateMap<EquipoDigitalizacion, EquipoDigitalizacionModel>();
         }
     }
 }

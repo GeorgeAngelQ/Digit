@@ -1,0 +1,56 @@
+﻿<form id="EquipoDigitalizacionEditarFrm">
+    <header class="container text-center mb-4">
+        <div class="row">
+            <div class="col">
+                <h3>Editar Equipo</h3>
+            </div>
+            <div class="col text-end">
+                <p>@ViewBag.Mensaje</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="row justify-content-center mb-3">
+            <input id="IdEquipoTxt" type="hidden" value="@ViewBag.IdEquipo" />
+            <div class="col-md-6">
+                <label for="TipoEquipoTxt" class="form-label">Tipo</label>
+                <input id="TipoEquipoTxt" type="text" class="form-control" value="@ViewBag.EquipoDigitalizacion.TipoEquipo" />
+            </div>
+        </div>
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-6">
+                <label for="MarcaEquipoTxt" class="form-label">Marca</label>
+                <input id="MarcaEquipoTxt" type="text" class="form-control" value="@ViewBag.EquipoDigitalizacion.MarcaEquipo" />
+            </div>
+        </div>
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-6">
+                <label for="ModeloEquipoTxt" class="form-label">Modelo</label>
+                <input id="ModeloEquipoTxt" type="text" class="form-control" value="@ViewBag.EquipoDigitalizacion.ModeloEquipo" />
+            </div>
+        </div>
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-6">
+                <label for="EstadoEquipoTxt" class="form-label">Estado</label>
+                <input id="EstadoEquipoTxt" type="text" class="form-control" value="@ViewBag.EquipoDigitalizacion.EstadoEquipo" />
+            </div>
+        </div>
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-6">
+                <label for="UbicacionEquipoTxt" class="form-label">Ubicación</label>
+                <input id="UbicacionEquipoTxt" type="text" class="form-control" value="@ViewBag.EquipoDigitalizacion.UbicacionEquipo" />
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-auto">
+                <button id="GuardarBtn" type="button" class="btn btn-success me-2">Guardar</button>
+                <button id="CancelarBtn" type="button" class="btn btn-danger" onclick="window.location.href='../index'">Cancelar</button>
+            </div>
+        </div>
+    </main>
+</form>
+
+@section Scripts {
+    <script src="~/views/equipodigitalizacion/editar.js"></script>
+}

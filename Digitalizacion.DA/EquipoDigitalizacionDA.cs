@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Dynamic;
 using Digitalizacion.EN;
 using Libreria;
 using Microsoft.Data.SqlClient;
@@ -13,6 +14,7 @@ namespace Digitalizacion.DA
         private const string UpEquipoDigitalizacionSelectById = "UpEquipoDigitalizacionSelectById";
         private const string UpEquipoDigitalizacionUpdate = "UpEquipoDigitalizacionUpdate";
         private const string UpEquipoDigitalizacionDelete = "UpEquipoDigitalizacionDelete";
+        private const string UpEquipoDigitalizacionPagination = "UpEquipoDigitalizacionPagination";
         #endregion
         #region Propiedades
         private string CadenaDeConexion { get; set; }
@@ -249,6 +251,105 @@ namespace Digitalizacion.DA
                     }
                 }
             }
+        }
+
+        public List<EquipoDigitalizacion> List()
+        {
+            var lista = new List<EquipoDigitalizacion>();
+
+            using (var sqlCon = new SqlConnection(CadenaDeConexion))
+            {
+                sqlCon.Open();
+                using (var sqlCmd = new SqlCommand("SELECT IdEquipo, TipoEquipo, MarcaEquipo, ModeloEquipo, EstadoEquipo, UbicacionEquipo FROM dbo.EquipoDigitalizacion", sqlCon))
+                {
+                    using (var dr = sqlCmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            var equipo = new EquipoDigitalizacion
+                            {
+                                IdEquipo = Convert.ToInt32(dr["IdEquipo"]),
+                                TipoEquipo = Convert.ToString(dr["TipoEquipo"]),
+                                MarcaEquipo = Convert.ToString(dr["MarcaEquipo"]),
+                                ModeloEquipo = Convert.ToString(dr["ModeloEquipo"]),
+                                EstadoEquipo = Convert.ToString(dr["EstadoEquipo"]),
+                                UbicacionEquipo = Convert.ToString(dr["UbicacionEquipo"])
+                            };
+                            lista.Add(equipo);
+                        }
+                    }
+                }
+            }
+
+            return lista;
+        }
+        public List<ExpandoObject> Pagination(string texto, int pageSize, int currentPage, string orderBy, bool? sortOrder)
+        {
+            var beEquipoDigitalizacionLst = new List<ExpandoObject>();
+            SqlDataReader dr = null;
+
+            try
+            {
+                using (var sqlCon = new SqlConnection(CadenaDeConexion))
+                {
+                    sqlCon.Open();
+                    using (var sqlCmd = new SqlCommand())
+                    {
+                        sqlCmd.Connection = sqlCon;
+                        sqlCmd.CommandText = "UpEquipoDigitalizacionPagination";
+                        sqlCmd.CommandType = CommandType.StoredProcedure;
+                        sqlCmd.CommandTimeout = 0;
+
+                        if (string.IsNullOrWhiteSpace(texto))
+                        {
+                            sqlCmd.Parameters.Add("@Texto", SqlDbType.NVarChar).Value = DBNull.Value;
+                        }
+                        else
+                        {
+                            sqlCmd.Parameters.Add("@Texto", SqlDbType.NVarChar).Value = texto;
+                        }
+                        sqlCmd.Parameters.Add("@PageSize", SqlDbType.Int).Value = pageSize;
+                        sqlCmd.Parameters.Add("@CurrentPage", SqlDbType.Int).Value = currentPage;
+                        sqlCmd.Parameters.Add("@OrderBy", SqlDbType.VarChar).Value = orderBy;
+
+                        if (sortOrder.HasValue)
+                        {
+                            sqlCmd.Parameters.Add("@SortOrder", SqlDbType.Bit).Value = sortOrder;
+                        }
+                        else
+                        {
+                            sqlCmd.Parameters.Add("@SortOrder", SqlDbType.Bit).Value = DBNull.Value;
+                        }
+                        dr = sqlCmd.ExecuteReader();
+
+                        while (dr.Read())
+                        {
+                            dynamic equipo = new ExpandoObject();
+
+                            equipo.IdEquipo = Convert.ToInt32(dr["IdEquipo"]);
+                            equipo.TipoEquipo = Convert.ToString(dr["TipoEquipo"]);
+                            equipo.MarcaEquipo = Convert.ToString(dr["MarcaEquipo"]);
+                            equipo.ModeloEquipo = Convert.ToString(dr["ModeloEquipo"]);
+                            equipo.EstadoEquipo = Convert.ToString(dr["EstadoEquipo"]);
+                            equipo.UbicacionEquipo = Convert.ToString(dr["UbicacionEquipo"]);
+                            equipo.TotalRegistros = Convert.ToInt32(dr["TotalRegistros"]);
+
+                            beEquipoDigitalizacionLst.Add(equipo);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                dr?.Close();
+                dr?.Dispose();
+            }
+
+            return beEquipoDigitalizacionLst;
         }
         #endregion
     }
