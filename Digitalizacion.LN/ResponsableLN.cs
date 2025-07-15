@@ -1,4 +1,5 @@
-﻿using Digitalizacion.DA;
+﻿using System.Dynamic;
+using Digitalizacion.DA;
 using Digitalizacion.EN;
 
 namespace Digitalizacion.LN
@@ -26,6 +27,16 @@ namespace Digitalizacion.LN
         {
             var responsableDA = new ResponsableDA();
             responsableDA.Delete(idResponsable);
+        }
+        public List<Responsable> List()
+        {
+            var responsableDA = new ResponsableDA();
+            return responsableDA.List();
+        }
+        public List<ExpandoObject> Pagination(string texto, int pageSize, int currentPage, string orderBy, bool? sortOrder)
+        {
+            var responsableDA = new ResponsableDA();
+            return responsableDA.Pagination(texto, pageSize, currentPage, orderBy, sortOrder);
         }
     }
 }
