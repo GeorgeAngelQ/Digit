@@ -1,0 +1,17 @@
+﻿body {
+    background-image: url('../assets/fondo2.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: white;
+}
+
+header {
+    background-color: rgba(0, 0, 0, 0.6);
+    border-bottom: 4px solid #333;
+}
+
+#DepartamentoGrid .btn {
+    padding: 4px 8px;
+    font-size: 14px;
+}

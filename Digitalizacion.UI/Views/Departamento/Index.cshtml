@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Departamento - Index</title>
+    <link rel="stylesheet" href="~/views/departamento/departamento.css">
+</head>
+<body>
+    <header class="text-white text-center p-4">
+        <h2>Departamento</h2>
+        <h4>Index</h4>
+    </header>
+    <main class="container mt-4 text-white">
+        <div class="row align-items-center mb-4">
+            <div class="col-auto">
+                <label for="FiltroTxt" class="form-label mb-0">Buscar Departamento:</label>
+            </div>
+            <div class="col">
+                <input id="FiltroTxt" class="form-control" type="search" autocomplete="off" placeholder="Ingrese el nombre del departamento" />
+            </div>
+            <div class="col text-end">
+                <a href="@Url.Action("Nuevo", "Departamento")" class="btn btn-success me-2">
+                    <i class="fa-regular fa-square-plus"></i> Nuevo
+                </a>
+                <a href="/" class="btn btn-secondary">
+                    <i class="fa-solid fa-arrow-left"></i> Retornar
+                </a>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-12">
+                <table id="DepartamentoGrid" class="table table-bordered table-dark text-center">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Ubicacion</th>
+                            <th>Extension</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="DepartamentoBody">
+                    </tbody>
+                </table>
+                <div class="row mt-2">
+                    <div class="col-12 d-flex justify-content-between align-items-center">
+                        <button id="prevPage" class="btn btn-outline-light">Anterior</button>
+                        <span id="pageInfo" class="text-white">Página 1 de 0</span>
+                        <button id="nextPage" class="btn btn-outline-light">Siguiente</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+    <script src="~/views/departamento/index.js"></script>
+</body>
+</html>
