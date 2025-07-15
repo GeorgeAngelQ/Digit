@@ -72,5 +72,25 @@ namespace Digitalizacion.API.Controllers
                 return StatusCode(500, $"Error interno del servidor: {ex.Message}");
             }
         }
+        [HttpGet]
+        [Route("pagination")]
+        public ActionResult<List<ExpandoObject>> Pagination(
+            [FromQuery] string? texto,
+            [FromQuery] int pageSize = 5,
+            [FromQuery] int currentPage = 1,
+            [FromQuery] string orderBy = "IdUsuario",
+            [FromQuery] bool? sortOrder = true)
+        {
+            try
+            {
+                var usuarioSistemaLN = new UsuarioSistemaLN();
+                var data = usuarioSistemaLN.Pagination(texto ?? "", pageSize, currentPage, orderBy, sortOrder);
+                return Ok(data);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { mensaje = "Error en el servidor", detalle = ex.Message });
+            }
+        }
     }
 }
