@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Dynamic;
 using Digitalizacion.EN;
 using Libreria;
 using Microsoft.Data.SqlClient;
@@ -207,6 +208,98 @@ namespace Digitalizacion.DA
                 }
             }
         }
+        public List<Departamento> List()
+        {
+            var lista = new List<Departamento>();
+
+            using (var sqlCon = new SqlConnection(CadenaDeConexion))
+            {
+                sqlCon.Open();
+                using (var sqlCmd = new SqlCommand("SELECT IdDepartamento, NombreDepartamento, UbicacionDepartamento, ExtensionDepartamento FROM dbo.Departamento", sqlCon))
+                {
+                    using (var dr = sqlCmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            var departamento = new Departamento
+                            {
+                                IdDepartamento = Convert.ToInt32(dr["IdDepartamento"]),
+                                NombreDepartamento = Convert.ToString(dr["NombreDepartamento"]),
+                                UbicacionDepartamento = Convert.ToString(dr["UbicacionDepartamento"]),
+                                ExtensionDepartamento = Convert.ToString(dr["ExtensionDepartamento"]),
+                            };
+                            lista.Add(departamento);
+                        }
+                    }
+                }
+            }
+
+            return lista;
+        }
+        public List<ExpandoObject> Pagination(string texto, int pageSize, int currentPage, string orderBy, bool? sortOrder)
+        {
+            var beDepartamentoLst = new List<ExpandoObject>();
+            SqlDataReader dr = null;
+
+            try
+            {
+                using (var sqlCon = new SqlConnection(CadenaDeConexion))
+                {
+                    sqlCon.Open();
+                    using (var sqlCmd = new SqlCommand())
+                    {
+                        sqlCmd.Connection = sqlCon;
+                        sqlCmd.CommandText = "UpEquipoDigitalizacionPagination";
+                        sqlCmd.CommandType = CommandType.StoredProcedure;
+                        sqlCmd.CommandTimeout = 0;
+
+                        if (string.IsNullOrWhiteSpace(texto))
+                        {
+                            sqlCmd.Parameters.Add("@Texto", SqlDbType.NVarChar).Value = DBNull.Value;
+                        }
+                        else
+                        {
+                            sqlCmd.Parameters.Add("@Texto", SqlDbType.NVarChar).Value = texto;
+                        }
+                        sqlCmd.Parameters.Add("@PageSize", SqlDbType.Int).Value = pageSize;
+                        sqlCmd.Parameters.Add("@CurrentPage", SqlDbType.Int).Value = currentPage;
+                        sqlCmd.Parameters.Add("@OrderBy", SqlDbType.VarChar).Value = orderBy;
+
+                        if (sortOrder.HasValue)
+                        {
+                            sqlCmd.Parameters.Add("@SortOrder", SqlDbType.Bit).Value = sortOrder;
+                        }
+                        else
+                        {
+                            sqlCmd.Parameters.Add("@SortOrder", SqlDbType.Bit).Value = DBNull.Value;
+                        }
+                        dr = sqlCmd.ExecuteReader();
+
+                        while (dr.Read())
+                        {
+                            dynamic departamento = new ExpandoObject();
+
+                            departamento.IdDepartamento = Convert.ToInt32(dr["IdDepartamento"]);
+                            departamento.NombreDepartamento = Convert.ToString(dr["NombreDepartamento"]);
+                            departamento.UbicacionDepartamento = Convert.ToString(dr["UbicacionDepartamento"]);
+                            departamento.ExtensionDepartamento = Convert.ToString(dr["ExtensionDepartamento"]);
+                            beDepartamentoLst.Add(departamento);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                dr?.Close();
+                dr?.Dispose();
+            }
+
+            return beDepartamentoLst;
+        }   
         #endregion
     }
 }
