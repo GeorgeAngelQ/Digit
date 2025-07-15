@@ -13,6 +13,7 @@ namespace Digitalizacion.DA
         private const string UpDocumentoSelectById = "UpDocumentoSelectById";
         private const string UpDocumentoUpdate = "UpDocumentoUpdate";
         private const string UpDocumentoDelete = "UpDocumentoDelete";
+        private const string UpDocumentoPagination = "UpDocumentoPagination";
         #endregion
 
         #region Propiedades
@@ -251,6 +252,83 @@ namespace Digitalizacion.DA
                 }
             }
         }
+        public List<DocumentoDTO> List()
+        {
+            var lista = new List<DocumentoDTO>();
+
+            using (var sqlCon = new SqlConnection(CadenaDeConexion))
+            {
+                sqlCon.Open();
+                using (var sqlCmd = new SqlCommand("SELECT D.IdDocumento, P.IdProceso, P.Prioridad,D.NombreDocumento,D.TipoDocumento,D.FormatoDocumento,D.FechaDigitalizacion,D.Estado_Documento FROM Documento D INNER JOIN Proceso P ON D.IdProceso = P.IdProceso", sqlCon))
+                {
+                    using (var dr = sqlCmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            var documentoDTO = new DocumentoDTO
+                            {
+                                IdDocumento = Convert.ToInt32(dr["IdDocumento"]),
+                                IdProceso = Convert.ToInt32(dr["IdProceso"]),
+                                NombreDocumento = Convert.ToString(dr["NombreDocumento"]) ?? "",
+                                TipoDocumento = Convert.ToString(dr["TipoDocumento"]) ?? "",
+                                FormatoDocumento = Convert.ToString(dr["FormatoDocumento"]) ?? "",
+                                FechaDigitalizacion = dr["FechaDigitalizacion"] != DBNull.Value ? Convert.ToDateTime(dr["FechaDigitalizacion"]) : DateTime.MinValue,
+                                Estado_Documento = Convert.ToString(dr["Estado_Documento"]) ?? "",
+                                Prioridad = Convert.ToString(dr["Prioridad"]) ?? ""
+                            }; 
+                            lista.Add(documentoDTO);
+                        }
+                    }
+                }
+            }
+
+            return lista;
+        }
+
+        public List<DocumentoDTO> Pagination(string texto, int pageSize, int currentPage, string orderBy, bool? sortOrder)
+        {
+            var lista = new List<DocumentoDTO>();
+
+            using (var sqlCon = new SqlConnection(CadenaDeConexion))
+            {
+                sqlCon.Open();
+                using (var sqlCmd = new SqlCommand("UpDocumentoPagination", sqlCon))
+                {
+                    sqlCmd.CommandType = CommandType.StoredProcedure;
+
+                    sqlCmd.Parameters.AddWithValue("@Texto", string.IsNullOrWhiteSpace(texto) ? (object)DBNull.Value : texto);
+                    sqlCmd.Parameters.AddWithValue("@PageSize", pageSize);
+                    sqlCmd.Parameters.AddWithValue("@CurrentPage", currentPage);
+                    sqlCmd.Parameters.AddWithValue("@OrderBy", orderBy);
+                    sqlCmd.Parameters.AddWithValue("@SortOrder", sortOrder ?? (object)DBNull.Value);
+
+                    using (var dr = sqlCmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            var item = new DocumentoDTO
+                            {
+                                IdDocumento = Convert.ToInt32(dr["IdDocumento"]),
+                                IdProceso = Convert.ToInt32(dr["IdProceso"]),
+                                NombreDocumento = Convert.ToString(dr["NombreDocumento"]) ?? "",
+                                TipoDocumento = Convert.ToString(dr["TipoDocumento"]) ?? "",
+                                FormatoDocumento = Convert.ToString(dr["FormatoDocumento"]) ?? "",
+                                FechaDigitalizacion = dr["FechaDigitalizacion"] != DBNull.Value ? Convert.ToDateTime(dr["FechaDigitalizacion"]) : DateTime.MinValue,
+                                Estado_Documento = Convert.ToString(dr["Estado_Documento"]) ?? "",
+                                Prioridad = Convert.ToString(dr["Prioridad"]) ?? "",
+
+                                TotalRegistros = Convert.ToInt32(dr["TotalRegistros"])
+                            };
+
+                            lista.Add(item);
+                        }
+                    }
+                }
+            }
+
+            return lista;
+        }
+
 
         #endregion
     }

@@ -252,18 +252,18 @@ namespace Digitalizacion.DA
                             {
                                 IdProceso = Convert.ToInt32(dr["IdProceso"]),
                                 FechaInicio = Convert.ToDateTime(dr["FechaInicio"]),
-                                FechaFin = Convert.ToDateTime(dr["FechaFin"]),
-                                Estado = Convert.ToString(dr["Estado"]),
-                                Prioridad = Convert.ToString(dr["Prioridad"]),
+                                FechaFin = dr["FechaFin"] != DBNull.Value ? Convert.ToDateTime(dr["FechaFin"]) : DateTime.MinValue,
+                                Estado = Convert.ToString(dr["Estado"]) ?? "",
+                                Prioridad = Convert.ToString(dr["Prioridad"]) ?? "",
                                 IdResponsable = Convert.ToInt32(dr["IdResponsable"]),
-                                NombreResponsable = Convert.ToString(dr["NombreResponsable"]),
+                                NombreResponsable = Convert.ToString(dr["NombreResponsable"]) ?? "",
 
                                 IdDepartamento = Convert.ToInt32(dr["IdDepartamento"]),
-                                NombreDepartamento = Convert.ToString(dr["NombreDepartamento"]),
+                                NombreDepartamento = Convert.ToString(dr["NombreDepartamento"]) ?? "",
 
                                 IdEquipo = Convert.ToInt32(dr["IdEquipo"]),
-                                MarcaEquipo = Convert.ToString(dr["MarcaEquipo"]),
-                                ModeloEquipo = Convert.ToString(dr["ModeloEquipo"]),
+                                MarcaEquipo = Convert.ToString(dr["MarcaEquipo"]) ?? "",
+                                ModeloEquipo = Convert.ToString(dr["ModeloEquipo"]) ?? "",
                             };
                             lista.Add(procesoDTO);
                         }
@@ -298,18 +298,18 @@ namespace Digitalizacion.DA
                                 IdProceso = Convert.ToInt32(dr["IdProceso"]),
                                 FechaInicio = Convert.ToDateTime(dr["FechaInicio"]),
                                 FechaFin = dr["FechaFin"] != DBNull.Value ? Convert.ToDateTime(dr["FechaFin"]) : (DateTime?)null,
-                                Estado = Convert.ToString(dr["Estado"]),
-                                Prioridad = Convert.ToString(dr["Prioridad"]),
+                                Estado = Convert.ToString(dr["Estado"]) ?? "",
+                                Prioridad = Convert.ToString(dr["Prioridad"]) ?? "",
 
                                 IdResponsable = Convert.ToInt32(dr["IdResponsable"]),
-                                NombreResponsable = Convert.ToString(dr["NombreResponsable"]),
+                                NombreResponsable = Convert.ToString(dr["NombreResponsable"]) ?? "",
 
                                 IdDepartamento = Convert.ToInt32(dr["IdDepartamento"]),
-                                NombreDepartamento = Convert.ToString(dr["NombreDepartamento"]),
+                                NombreDepartamento = Convert.ToString(dr["NombreDepartamento"]) ?? "",
 
                                 IdEquipo = Convert.ToInt32(dr["IdEquipo"]),
-                                MarcaEquipo = Convert.ToString(dr["MarcaEquipo"]),
-                                ModeloEquipo = Convert.ToString(dr["ModeloEquipo"]),
+                                MarcaEquipo = Convert.ToString(dr["MarcaEquipo"]) ?? "",
+                                ModeloEquipo = Convert.ToString(dr["ModeloEquipo"]) ?? "",
 
                                 TotalRegistros = Convert.ToInt32(dr["TotalRegistros"])
                             };

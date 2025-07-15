@@ -58,8 +58,8 @@ namespace Digitalizacion.API.Controllers
         {
             try
             {
-                var blResponsable = new ResponsableLN();
-                var list = blResponsable.List();
+                var blDocumento = new DocumentoLN();
+                var list = blDocumento.List();
 
                 if (list == null || !list.Any())
                     return NotFound("No se encontraron responsables");
@@ -77,13 +77,13 @@ namespace Digitalizacion.API.Controllers
             [FromQuery] string? texto,
             [FromQuery] int pageSize = 5,
             [FromQuery] int currentPage = 1,
-            [FromQuery] string orderBy = "IdResponsable",
+            [FromQuery] string orderBy = "IdDocumento",
             [FromQuery] bool? sortOrder = true)
         {
             try
             {
-                var responsableLN = new ResponsableLN();
-                var data = responsableLN.Pagination(texto ?? "", pageSize, currentPage, orderBy, sortOrder);
+                var documentoLN = new DocumentoLN();
+                var data = documentoLN.Pagination(texto ?? "", pageSize, currentPage, orderBy, sortOrder);
                 return Ok(data);
             }
             catch (Exception ex)
