@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Dynamic;
 using Digitalizacion.EN;
 using Libreria;
 using Microsoft.Data.SqlClient;
@@ -13,6 +14,7 @@ namespace Digitalizacion.DA
         private const string UpResponsableSelectById = "UpResponsableSelectById";
         private const string UpResponsableUpdate = "UpResponsableUpdate";
         private const string UpResponsableDelete = "UpResponsableDelete";
+        private const string UpResponsablePagination = "UpResponsablePagination";
         #endregion
 
         #region Propiedades
@@ -249,6 +251,104 @@ namespace Digitalizacion.DA
                     }
                 }
             }
+        }
+        public List<Responsable> List()
+        {
+            var lista = new List<Responsable>();
+
+            using (var sqlCon = new SqlConnection(CadenaDeConexion))
+            {
+                sqlCon.Open();
+                using (var sqlCmd = new SqlCommand("SELECT IdResponsable, NombreResponsable, ApellidoResponsable, CorreoResponsable, TelefonoResponsable, CargoResponsable FROM dbo.Responsable", sqlCon))
+                {
+                    using (var dr = sqlCmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            var responsable = new Responsable
+                            {
+                                IdResponsable = Convert.ToInt32(dr["IdResponsable"]),
+                                NombreResponsable = Convert.ToString(dr["NombreResponsable"]),
+                                ApellidoResponsable = Convert.ToString(dr["ApellidoResponsable"]),
+                                CorreoResponsable = Convert.ToString(dr["CorreoResponsable"]),
+                                TelefonoResponsable = Convert.ToString(dr["TelefonoResponsable"]),
+                                CargoResponsable = Convert.ToString(dr["CargoResponsable"])
+                            };
+                            lista.Add(responsable);
+                        }
+                    }
+                }
+            }
+
+            return lista;
+        }
+        public List<ExpandoObject> Pagination(string texto, int pageSize, int currentPage, string orderBy, bool? sortOrder)
+        {
+            var beResponsableLst = new List<ExpandoObject>();
+            SqlDataReader dr = null;
+
+            try
+            {
+                using (var sqlCon = new SqlConnection(CadenaDeConexion))
+                {
+                    sqlCon.Open();
+                    using (var sqlCmd = new SqlCommand())
+                    {
+                        sqlCmd.Connection = sqlCon;
+                        sqlCmd.CommandText = "UpResponsablePagination";
+                        sqlCmd.CommandType = CommandType.StoredProcedure;
+                        sqlCmd.CommandTimeout = 0;
+
+                        if (string.IsNullOrWhiteSpace(texto))
+                        {
+                            sqlCmd.Parameters.Add("@Texto", SqlDbType.NVarChar).Value = DBNull.Value;
+                        }
+                        else
+                        {
+                            sqlCmd.Parameters.Add("@Texto", SqlDbType.NVarChar).Value = texto;
+                        }
+                        sqlCmd.Parameters.Add("@PageSize", SqlDbType.Int).Value = pageSize;
+                        sqlCmd.Parameters.Add("@CurrentPage", SqlDbType.Int).Value = currentPage;
+                        sqlCmd.Parameters.Add("@OrderBy", SqlDbType.VarChar).Value = orderBy;
+
+                        if (sortOrder.HasValue)
+                        {
+                            sqlCmd.Parameters.Add("@SortOrder", SqlDbType.Bit).Value = sortOrder;
+                        }
+                        else
+                        {
+                            sqlCmd.Parameters.Add("@SortOrder", SqlDbType.Bit).Value = DBNull.Value;
+                        }
+                        dr = sqlCmd.ExecuteReader();
+
+                        while (dr.Read())
+                        {
+                            dynamic responsable = new ExpandoObject();
+
+                            responsable.IdResponsable = Convert.ToInt32(dr["IdResponsable"]);
+                            responsable.NombreResponsable = Convert.ToString(dr["NombreResponsable"]);
+                            responsable.ApellidoResponsable = Convert.ToString(dr["ApellidoResponsable"]);
+                            responsable.CorreoResponsable = Convert.ToString(dr["CorreoResponsable"]);
+                            responsable.TelefonoResponsable = Convert.ToString(dr["TelefonoResponsable"]);
+                            responsable.CargoResponsable = Convert.ToString(dr["CargoResponsable"]);
+                            responsable.TotalRegistros = Convert.ToInt32(dr["TotalRegistros"]);
+
+                            beResponsableLst.Add(responsable);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                dr?.Close();
+                dr?.Dispose();
+            }
+
+            return beResponsableLst;
         }
         #endregion
     }
