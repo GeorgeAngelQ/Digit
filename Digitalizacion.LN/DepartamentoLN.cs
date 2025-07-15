@@ -1,4 +1,5 @@
-﻿using Digitalizacion.DA;
+﻿using System.Dynamic;
+using Digitalizacion.DA;
 using Digitalizacion.EN;
 
 namespace Digitalizacion.LN
@@ -26,6 +27,16 @@ namespace Digitalizacion.LN
         {
             var departamentoDA = new DepartamentoDA();
             departamentoDA.Delete(idDepartamento);
+        }
+        public List<Departamento> List()
+        {
+            var departamentoDA = new DepartamentoDA();
+            return departamentoDA.List();
+        }
+        public List<ExpandoObject> Pagination(string texto, int pageSize, int currentPage, string orderBy, bool? sortOrder)
+        {
+            var departamentoDA = new DepartamentoDA();
+            return departamentoDA.Pagination(texto, pageSize, currentPage, orderBy, sortOrder);
         }
     }
 }
