@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Dynamic;
 using Digitalizacion.EN;
 using Libreria;
 using Microsoft.Data.SqlClient;
@@ -13,6 +14,7 @@ namespace Digitalizacion.DA
         private const string UpProcesoSelectById = "UpProcesoSelectById";
         private const string UpProcesoUpdate = "UpProcesoUpdate";
         private const string UpProcesoDelete = "UpProcesoDelete";
+        private const string UpProcesoPagination = "UpProcesoPagination";
         #endregion
 
         #region Propiedades
@@ -233,7 +235,92 @@ namespace Digitalizacion.DA
                 }
             }
         }
+        public List<ProcesoDTO> List()
+        {
+            var lista = new List<ProcesoDTO>();
 
+            using (var sqlCon = new SqlConnection(CadenaDeConexion))
+            {
+                sqlCon.Open();
+                using (var sqlCmd = new SqlCommand("SELECT P.IdProceso,R.IdResponsable,D.IdDepartamento,E.IdEquipo,P.FechaInicio,P.FechaFin,P.Estado,P.Prioridad,R.NombreResponsable,D.NombreDepartamento,E.MarcaEquipo,E.ModeloEquipo FROM Proceso P INNER JOIN Responsable R ON P.IdResponsable=R.IdResponsable INNER JOIN Departamento D ON P.IdDepartamento=D.IdDepartamento INNER JOIN EquipoDigitalizacion E ON P.IdEquipo=E.IdEquipo", sqlCon))
+                {
+                    using (var dr = sqlCmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            var procesoDTO = new ProcesoDTO
+                            {
+                                IdProceso = Convert.ToInt32(dr["IdProceso"]),
+                                FechaInicio = Convert.ToDateTime(dr["FechaInicio"]),
+                                FechaFin = Convert.ToDateTime(dr["FechaFin"]),
+                                Estado = Convert.ToString(dr["Estado"]),
+                                Prioridad = Convert.ToString(dr["Prioridad"]),
+                                IdResponsable = Convert.ToInt32(dr["IdResponsable"]),
+                                NombreResponsable = Convert.ToString(dr["NombreResponsable"]),
+
+                                IdDepartamento = Convert.ToInt32(dr["IdDepartamento"]),
+                                NombreDepartamento = Convert.ToString(dr["NombreDepartamento"]),
+
+                                IdEquipo = Convert.ToInt32(dr["IdEquipo"]),
+                                MarcaEquipo = Convert.ToString(dr["MarcaEquipo"]),
+                                ModeloEquipo = Convert.ToString(dr["ModeloEquipo"]),
+                            };
+                            lista.Add(procesoDTO);
+                        }
+                    }
+                }
+            }
+
+            return lista;
+        }
+        public List<ProcesoDTO> Pagination(string texto, int pageSize, int currentPage, string orderBy, bool? sortOrder)
+        {
+            var lista = new List<ProcesoDTO>();
+            using (var sqlCon = new SqlConnection(CadenaDeConexion))
+            {
+                sqlCon.Open();
+                using (var sqlCmd = new SqlCommand("UpProcesoPagination", sqlCon))
+                {
+                    sqlCmd.CommandType = CommandType.StoredProcedure;
+
+                    sqlCmd.Parameters.AddWithValue("@Texto", string.IsNullOrWhiteSpace(texto) ? (object)DBNull.Value : texto);
+                    sqlCmd.Parameters.AddWithValue("@PageSize", pageSize);
+                    sqlCmd.Parameters.AddWithValue("@CurrentPage", currentPage);
+                    sqlCmd.Parameters.AddWithValue("@OrderBy", orderBy);
+                    sqlCmd.Parameters.AddWithValue("@SortOrder", sortOrder ?? (object)DBNull.Value);
+
+                    using (var dr = sqlCmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            var item = new ProcesoDTO
+                            {
+                                IdProceso = Convert.ToInt32(dr["IdProceso"]),
+                                FechaInicio = Convert.ToDateTime(dr["FechaInicio"]),
+                                FechaFin = dr["FechaFin"] != DBNull.Value ? Convert.ToDateTime(dr["FechaFin"]) : (DateTime?)null,
+                                Estado = Convert.ToString(dr["Estado"]),
+                                Prioridad = Convert.ToString(dr["Prioridad"]),
+
+                                IdResponsable = Convert.ToInt32(dr["IdResponsable"]),
+                                NombreResponsable = Convert.ToString(dr["NombreResponsable"]),
+
+                                IdDepartamento = Convert.ToInt32(dr["IdDepartamento"]),
+                                NombreDepartamento = Convert.ToString(dr["NombreDepartamento"]),
+
+                                IdEquipo = Convert.ToInt32(dr["IdEquipo"]),
+                                MarcaEquipo = Convert.ToString(dr["MarcaEquipo"]),
+                                ModeloEquipo = Convert.ToString(dr["ModeloEquipo"]),
+
+                                TotalRegistros = Convert.ToInt32(dr["TotalRegistros"])
+                            };
+
+                            lista.Add(item);
+                        }
+                    }
+                }
+            }
+            return lista;
+        }
         #endregion
     }
 }

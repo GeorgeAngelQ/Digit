@@ -1,4 +1,5 @@
-﻿using Digitalizacion.DA;
+﻿using System.Dynamic;
+using Digitalizacion.DA;
 using Digitalizacion.EN;
 
 namespace Digitalizacion.LN
@@ -25,6 +26,16 @@ namespace Digitalizacion.LN
         {
             var procesoDA = new ProcesoDA();
             procesoDA.Delete(idProceso);
+        }
+        public List<ProcesoDTO> List()
+        {
+            var procesoDA = new ProcesoDA();
+            return procesoDA.List();
+        }
+        public List<ProcesoDTO> Pagination(string texto, int pageSize, int currentPage, string orderBy, bool? sortOrder)
+        {
+            var procesoDA = new ProcesoDA();
+            return procesoDA.Pagination(texto, pageSize, currentPage, orderBy, sortOrder);
         }
     }
 }

@@ -53,5 +53,41 @@ namespace Digitalizacion.API.Controllers
             var blProceso = new ProcesoLN();
             blProceso.Delete(idProceso);
         }
+        [HttpGet]
+        [Route("list")]
+        public ActionResult<List<ProcesoDTO>> List()
+        {
+            try
+            {
+                var procesoLN = new ProcesoLN();
+                var procesos = procesoLN.List();
+                return Ok(procesos);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("pagination")]
+        public ActionResult<List<ProcesoDTO>> Pagination(
+            [FromQuery] string? texto,
+            [FromQuery] int pageSize = 5,
+            [FromQuery] int currentPage = 1,
+            [FromQuery] string orderBy = "IdProceso",
+            [FromQuery] bool? sortOrder = true)
+        {
+            try
+            {
+                var procesoLN = new ProcesoLN();
+                var procesos = procesoLN.Pagination(texto ?? "", pageSize, currentPage, orderBy, sortOrder);
+                return Ok(procesos);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }
