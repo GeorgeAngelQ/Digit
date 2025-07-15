@@ -1,6 +1,7 @@
 ﻿using Digitalizacion.EN;
 using Digitalizacion.DA;
 using Digitalizacion.SEC;
+using System.Dynamic;
 
 namespace Digitalizacion.LN
 {
@@ -54,6 +55,10 @@ namespace Digitalizacion.LN
             var usuarioSistemaDA = new UsuarioSistemaDA();
             return usuarioSistemaDA.List();
         }
-
+        public List<ExpandoObject> Pagination(string texto, int pageSize, int currentPage, string orderBy, bool? sortOrder)
+        {
+            var usuarioSistemaDA = new UsuarioSistemaDA();
+            return usuarioSistemaDA.Pagination(texto, pageSize, currentPage, orderBy, sortOrder);
+        }
     }
 }
