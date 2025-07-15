@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Dynamic;
 using Digitalizacion.EN;
 using Digitalizacion.SEC;
 using Libreria;
@@ -14,6 +15,7 @@ namespace Digitalizacion.DA
         private const string UpUsuarioSistemaSelectById = "UpUsuarioSistemaSelectById";
         private const string UpUsuarioSistemaUpdate = "UpUsuarioSistemaUpdate";
         private const string UpUsuarioSistemaDelete = "UpUsuarioSistemaDelete";
+        private const string UpUsuarioSistemaPagination = "UpUsuarioSistemaPagination";
         #endregion
         #region Propiedades
         private string CadenaDeConexion { get; set; }
@@ -313,6 +315,73 @@ namespace Digitalizacion.DA
             }
 
             return lista;
+        }
+        public List<ExpandoObject> Pagination(string texto, int pageSize, int currentPage, string orderBy, bool? sortOrder)
+        {
+            var beUsuarioSistemaLst = new List<ExpandoObject>();
+            SqlDataReader dr = null;
+
+            try
+            {
+                using (var sqlCon = new SqlConnection(CadenaDeConexion))
+                {
+                    sqlCon.Open();
+                    using (var sqlCmd = new SqlCommand())
+                    {
+                        sqlCmd.Connection = sqlCon;
+                        sqlCmd.CommandText = "UpUsuarioSistemaPagination";
+                        sqlCmd.CommandType = CommandType.StoredProcedure;
+                        sqlCmd.CommandTimeout = 0;
+
+                        if (string.IsNullOrWhiteSpace(texto))
+                        {
+                            sqlCmd.Parameters.Add("@Texto", SqlDbType.NVarChar).Value = DBNull.Value;
+                        }
+                        else
+                        {
+                            sqlCmd.Parameters.Add("@Texto", SqlDbType.NVarChar).Value = texto;
+                        }
+                        sqlCmd.Parameters.Add("@PageSize", SqlDbType.Int).Value = pageSize;
+                        sqlCmd.Parameters.Add("@CurrentPage", SqlDbType.Int).Value = currentPage;
+                        sqlCmd.Parameters.Add("@OrderBy", SqlDbType.VarChar).Value = orderBy;
+
+                        if (sortOrder.HasValue)
+                        {
+                            sqlCmd.Parameters.Add("@SortOrder", SqlDbType.Bit).Value = sortOrder;
+                        }
+                        else
+                        {
+                            sqlCmd.Parameters.Add("@SortOrder", SqlDbType.Bit).Value = DBNull.Value;
+                        }
+                        dr = sqlCmd.ExecuteReader();
+
+                        while (dr.Read())
+                        {
+                            dynamic usuario = new ExpandoObject();
+
+                            usuario.IdUsuario = Convert.ToInt32(dr["IdUsuario"]);
+                            usuario.Usuario = Convert.ToString(dr["Usuario"]);
+                            usuario.Rol = Convert.ToString(dr["Rol"]);
+                            usuario.NombreCompleto = Convert.ToString(dr["NombreCompleto"]);
+                            usuario.CorreoElectronico = Convert.ToString(dr["CorreoElectronico"]);
+                            usuario.TotalRegistros = Convert.ToInt32(dr["TotalRegistros"]);
+
+                            beUsuarioSistemaLst.Add(usuario);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                dr?.Close();
+                dr?.Dispose();
+            }
+
+            return beUsuarioSistemaLst;
         }
 
 

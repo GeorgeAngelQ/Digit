@@ -14,6 +14,7 @@ namespace Digitalizacion.DA
         private const string UpDepartamentoSelectById = "UpDepartamentoSelectById";
         private const string UpDepartamentoUpdate = "UpDepartamentoUpdate";
         private const string UpDepartamentoDelete = "UpDepartamentoDelete";
+        private const string UpDepartamentoPagination = "UpDepartamentoPagination";
         #endregion
         #region Propiedades
         private string CadenaDeConexion { get; set; }
@@ -249,7 +250,7 @@ namespace Digitalizacion.DA
                     using (var sqlCmd = new SqlCommand())
                     {
                         sqlCmd.Connection = sqlCon;
-                        sqlCmd.CommandText = "UpEquipoDigitalizacionPagination";
+                        sqlCmd.CommandText = "UpDepartamentoPagination";
                         sqlCmd.CommandType = CommandType.StoredProcedure;
                         sqlCmd.CommandTimeout = 0;
 
@@ -283,6 +284,7 @@ namespace Digitalizacion.DA
                             departamento.NombreDepartamento = Convert.ToString(dr["NombreDepartamento"]);
                             departamento.UbicacionDepartamento = Convert.ToString(dr["UbicacionDepartamento"]);
                             departamento.ExtensionDepartamento = Convert.ToString(dr["ExtensionDepartamento"]);
+                            departamento.TotalRegistros = Convert.ToInt32(dr["TotalRegistros"]);
                             beDepartamentoLst.Add(departamento);
                         }
                     }
