@@ -26,5 +26,15 @@ namespace Digitalizacion.LN
             var accesoDocumentoDA = new AccesoDocumentoDA();
             accesoDocumentoDA.Delete(idAcceso);
         }
+        public List<AccesoDocumentoDTO> List()
+        {
+            var accesoDocumentoDA = new AccesoDocumentoDA();
+            return accesoDocumentoDA.List();
+        }
+        public List<AccesoDocumentoDTO> Pagination(string texto, int pageSize, int currentPage, string orderBy, bool? sortOrder)
+        {
+            var accesoDocumentoDA = new AccesoDocumentoDA();
+            return accesoDocumentoDA.Pagination(texto, pageSize, currentPage, orderBy, sortOrder);
+        }
     }
 }

@@ -13,6 +13,7 @@ namespace Digitalizacion.DA
         private const string UpAccesoDocumentoSelectById = "UpAccesoDocumentoSelectById";
         private const string UpAccesoDocumentoUpdate = "UpAccesoDocumentoUpdate";
         private const string UpAccesoDocumentoDelete = "UpAccesoDocumentoDelete";
+        private const string UpAccesoDocumentoPagination = "UpAccesoDocumentoPagination";
         #endregion
 
         #region Propiedades
@@ -186,6 +187,82 @@ namespace Digitalizacion.DA
                     }
                 }
             }
+        }
+        public List<AccesoDocumentoDTO> List()
+        {
+            var lista = new List<AccesoDocumentoDTO>();
+
+            using (var sqlCon = new SqlConnection(CadenaDeConexion))
+            {
+                sqlCon.Open();
+                using (var sqlCmd = new SqlCommand("SELECT A.IdAcceso,A.IdDocumento,D.TipoDocumento,D.NombreDocumento,A.IdUsuario,U.Usuario,U.NombreCompleto,A.FechaAcceso,A.TipoAcceso FROM AccesoDocumento A INNER JOIN Documento D ON A.IdDocumento = D.IdDocumento INNER JOIN UsuarioSistema U ON A.IdUsuario = U.IdUsuario;", sqlCon))
+                {
+                    using (var dr = sqlCmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            var accesoDocumentoDTO = new AccesoDocumentoDTO
+                            {
+                                IdAcceso = Convert.ToInt32(dr["IdAcceso"]),
+                                IdDocumento = Convert.ToInt32(dr["IdDocumento"]),
+                                NombreDocumento = dr["NombreDocumento"]?.ToString() ?? "",
+                                TipoDocumento = dr["TipoDocumento"]?.ToString() ?? "",
+                                IdUsuario = Convert.ToInt32(dr["IdUsuario"]),
+                                Usuario = Convert.ToString(dr["Usuario"]) ?? "",
+                                NombreCompleto = dr["NombreCompleto"]?.ToString() ?? "",
+                                FechaAcceso = Convert.ToDateTime(dr["FechaAcceso"]),
+                                TipoAcceso = dr["TipoAcceso"]?.ToString() ?? ""
+                            };
+                            lista.Add(accesoDocumentoDTO);
+                        }
+                    }
+                }
+            }
+
+            return lista;
+        }
+        public List<AccesoDocumentoDTO> Pagination(string texto, int pageSize, int currentPage, string orderBy, bool? sortOrder)
+        {
+            var lista = new List<AccesoDocumentoDTO>();
+
+            using (var sqlCon = new SqlConnection(CadenaDeConexion))
+            {
+                sqlCon.Open();
+                using (var sqlCmd = new SqlCommand("UpAccesoDocumentoPagination", sqlCon))
+                {
+                    sqlCmd.CommandType = CommandType.StoredProcedure;
+
+                    sqlCmd.Parameters.AddWithValue("@Texto", string.IsNullOrWhiteSpace(texto) ? (object)DBNull.Value : texto);
+                    sqlCmd.Parameters.AddWithValue("@PageSize", pageSize);
+                    sqlCmd.Parameters.AddWithValue("@CurrentPage", currentPage);
+                    sqlCmd.Parameters.AddWithValue("@OrderBy", orderBy);
+                    sqlCmd.Parameters.AddWithValue("@SortOrder", sortOrder ?? (object)DBNull.Value);
+
+                    using (var dr = sqlCmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            var item = new AccesoDocumentoDTO
+                            {
+                                IdAcceso = Convert.ToInt32(dr["IdAcceso"]),
+                                IdDocumento = Convert.ToInt32(dr["IdDocumento"]),
+                                NombreDocumento = dr["NombreDocumento"]?.ToString() ?? "",
+                                TipoDocumento = dr["TipoDocumento"]?.ToString() ?? "",
+                                IdUsuario = Convert.ToInt32(dr["IdUsuario"]),
+                                Usuario = Convert.ToString(dr["Usuario"]) ?? "",
+                                NombreCompleto = dr["NombreCompleto"]?.ToString() ?? "",
+                                FechaAcceso = Convert.ToDateTime(dr["FechaAcceso"]),
+                                TipoAcceso = dr["TipoAcceso"]?.ToString() ?? "",
+                                TotalRegistros = Convert.ToInt32(dr["TotalRegistros"])
+                            };
+
+                            lista.Add(item);
+                        }
+                    }
+                }
+            }
+
+            return lista;
         }
 
         #endregion
