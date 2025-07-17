@@ -15,6 +15,9 @@ namespace Digitalizacion.UI.Models
 
             CreateMap<DepartamentoModel, Departamento>();
             CreateMap<Departamento, DepartamentoModel>();
+
+            CreateMap<ResponsableModel, Responsable>();
+            CreateMap<Responsable, ResponsableModel>();
         }
     }
 }
