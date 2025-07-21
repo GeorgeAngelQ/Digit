@@ -1,0 +1,92 @@
+﻿@{
+    ViewData["Title"] = "Nuevo Proceso";
+    var responsables = ViewBag.Responsables as List<SelectListItem>;
+    var departamentos = ViewBag.Departamentos as List<SelectListItem>;
+    var equipos = ViewBag.Equipos as List<SelectListItem>;
+}
+<form id="ProcesoNuevoFrm">
+    <header class="container text-center mb-4">
+        <div class="row">
+            <div class="col">
+                <h3>Nuevo Proceso</h3>
+            </div>
+            <div class="col text-end">
+                <p>@ViewBag.Mensaje</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-6">
+                <label for="IdResponsableCbo" class="form-label">Responsable</label>
+                <select id="IdResponsableCbo" class="form-select">
+                    <option value="">-- Seleccione --</option>
+                    @if (ViewBag.Responsables != null)
+                    {
+                        foreach (var item in ViewBag.Responsables)
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-6">
+                <label for="IdDepartamentoCbo" class="form-label">Departamento</label>
+                <select id="IdDepartamentoCbo" class="form-select">
+                    <option value="">-- Seleccione --</option>
+                    @foreach (var item in departamentos)
+                    {
+                        <option value="@item.Value">@item.Text</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-6">
+                <label for="IdEquipoCbo" class="form-label">Equipo Digitalización</label>
+                <select id="IdEquipoCbo" class="form-select">
+                    <option value="">-- Seleccione --</option>
+                    @foreach (var item in equipos)
+                    {
+                        <option value="@item.Value">@item.Text</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-6">
+                <label for="FechaFinTxt" class="form-label">Fecha Fin</label>
+                <input id="FechaFinTxt" type="date" class="form-control" placeholder="Dejar vacio si no está finalizado"/>
+            </div>
+        </div>
+
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-6">
+                <label for="EstadoTxt" class="form-label">Estado</label>
+                <input id="EstadoTxt" type="text" class="form-control" placeholder="Activo, Finalizado, En proceso, etc..." />
+            </div>
+        </div>
+
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-6">
+                <label for="PrioridadTxt" class="form-label">Prioridad</label>
+                <input id="PrioridadTxt" type="text" class="form-control" placeholder="Alta, Media, Baja..." />
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-auto">
+                <button id="GuardarBtn" type="button" class="btn btn-success me-2">Guardar</button>
+                <button id="CancelarBtn" type="button" class="btn btn-danger" onclick="window.location.href='index'">Cancelar</button>
+            </div>
+        </div>
+    </main>
+</form>
+
+@section Scripts {
+    <script src="~/views/proceso/nuevo.js"></script>
+}

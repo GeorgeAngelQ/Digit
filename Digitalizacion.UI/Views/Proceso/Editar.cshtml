@@ -1,0 +1,103 @@
+﻿@{
+    var idResponsableSeleccionado = ViewBag.Proceso?.IdResponsable?.ToString() ?? "";
+}
+<form id="ProcesoEditarFrm">
+    <header class="container text-center mb-4">
+        <div class="row">
+            <div class="col">
+                <h3>Editar Proceso</h3>
+            </div>
+            <div class="col text-end">
+                <p>@ViewBag.Mensaje</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <input id="IdProcesoTxt" type="hidden" value="@ViewBag.IdProceso" />
+
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-6">
+                <label for="IdResponsableCbo" class="form-label">Responsable</label>
+                <select id="IdResponsableCbo" class="form-select" name="IdResponsable">
+                    <option value="">-- Seleccione --</option>
+                    @foreach (var item in ViewBag.Responsables as List<SelectListItem>)
+                    {
+                        <option value="@item.Value" selected="@(item.Value == idResponsableSeleccionado)">
+                            @item.Text
+                        </option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-6">
+                <label for="IdDepartamentoCbo" class="form-label">Departamento</label>
+                <select id="IdDepartamentoCbo" class="form-select">
+                    <option value="">-- Seleccione --</option>
+                    @foreach (var item in ViewBag.Departamentos)
+                    {
+                        <option value="@item.Value" selected="@(item.Value == ViewBag.Proceso.IdDepartamento.ToString())">
+                            @item.Text
+                        </option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-6">
+                <label for="IdEquipoCbo" class="form-label">Equipo</label>
+                <select id="IdEquipoCbo" class="form-select">
+                    <option value="">-- Seleccione --</option>
+                    @foreach (var item in ViewBag.Equipos)
+                    {
+                        <option value="@item.Value" selected="@(item.Value == ViewBag.Proceso.IdEquipo.ToString())">
+                            @item.Text
+                        </option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-6">
+                <label for="FechaInicioTxt" class="form-label">Fecha de Inicio</label>
+                <input id="FechaInicioTxt" type="date" class="form-control" value="@ViewBag.Proceso.FechaInicio.ToString("yyyy-MM-dd")" />
+            </div>
+        </div>
+
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-6">
+                <label for="FechaFinTxt" class="form-label">Fecha de Fin</label>
+                <input id="FechaFinTxt" type="date" class="form-control" value="@ViewBag.Proceso.FechaFin?.ToString("yyyy-MM-dd")" />
+            </div>
+        </div>
+
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-6">
+                <label for="EstadoTxt" class="form-label">Estado</label>
+                <input id="EstadoTxt" type="text" class="form-control" value="@ViewBag.Proceso.Estado" />
+            </div>
+        </div>
+
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-6">
+                <label for="PrioridadTxt" class="form-label">Prioridad</label>
+                <input id="PrioridadTxt" type="text" class="form-control" value="@ViewBag.Proceso.Prioridad" />
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-auto">
+                <button id="GuardarBtn" type="button" class="btn btn-success me-2">Guardar</button>
+                <button id="CancelarBtn" type="button" class="btn btn-danger" onclick="window.location.href='../index'">Cancelar</button>
+            </div>
+        </div>
+    </main>
+</form>
+
+@section Scripts {
+    <script src="~/views/proceso/editar.js"></script>
+}

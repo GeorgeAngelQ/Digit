@@ -18,6 +18,9 @@ namespace Digitalizacion.UI.Models
 
             CreateMap<ResponsableModel, Responsable>();
             CreateMap<Responsable, ResponsableModel>();
+
+            CreateMap<ProcesoModel, Proceso>();
+            CreateMap<Proceso, ProcesoModel>();
         }
     }
 }
