@@ -12,5 +12,7 @@ namespace Digitalizacion.EN
         public string? FormatoDocumento { get; set; }
         public DateTime? FechaDigitalizacion { get; set; }
         public string? Estado_Documento { get; set; }
+        public string RutaArchivo { get; set; }           
+        public string NombreOriginal { get; set; }
     }
 }

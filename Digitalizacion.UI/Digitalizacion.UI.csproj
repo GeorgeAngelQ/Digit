@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\Digitalizados\" />
     <Folder Include="wwwroot\views\assets\" />
   </ItemGroup>
 

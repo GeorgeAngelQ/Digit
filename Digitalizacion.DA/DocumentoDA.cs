@@ -79,6 +79,22 @@ namespace Digitalizacion.DA
                             {
                                 sqlCmd.Parameters.Add("@Estado_Documento", SqlDbType.VarChar).Value = enDocumento.Estado_Documento;
                             }
+                            if (string.IsNullOrWhiteSpace(enDocumento.RutaArchivo))
+                            {
+                                sqlCmd.Parameters.Add("@RutaArchivo", SqlDbType.VarChar).Value = DBNull.Value;
+                            }
+                            else
+                            {
+                                sqlCmd.Parameters.Add("@RutaArchivo", SqlDbType.VarChar).Value = enDocumento.RutaArchivo;
+                            }
+                            if(string.IsNullOrWhiteSpace(enDocumento.NombreOriginal))
+                            {
+                                sqlCmd.Parameters.Add("@NombreOriginal", SqlDbType.VarChar).Value = DBNull.Value;
+                            }
+                            else
+                            {
+                                sqlCmd.Parameters.Add("@NombreOriginal", SqlDbType.VarChar).Value = enDocumento.NombreOriginal;
+                            }
                             sqlCmd.ExecuteNonQuery();
                             tran.Commit();
                         }
@@ -140,6 +156,14 @@ namespace Digitalizacion.DA
                             if (dr["Estado_Documento"] != DBNull.Value)
                             {
                                 beDocumento.Estado_Documento = Convert.ToString(dr["Estado_Documento"]);
+                            }
+                            if (dr["RutaArchivo"] != DBNull.Value)
+                            {
+                                beDocumento.RutaArchivo = Convert.ToString(dr["RutaArchivo"]);
+                            }
+                            if (dr["NombreOriginal"] != DBNull.Value)
+                            {
+                                beDocumento.NombreOriginal = Convert.ToString(dr["NombreOriginal"]);
                             }
                         }
                     }
@@ -209,6 +233,22 @@ namespace Digitalizacion.DA
                             {
                                 sqlCmd.Parameters.Add("@Estado_Documento", SqlDbType.VarChar).Value = enDocumento.Estado_Documento;
                             }
+                            if (string.IsNullOrWhiteSpace(enDocumento.RutaArchivo))
+                            {
+                                sqlCmd.Parameters.Add("@RutaArchivo", SqlDbType.VarChar).Value = DBNull.Value;
+                            }
+                            else
+                            {
+                                sqlCmd.Parameters.Add("@RutaArchivo", SqlDbType.VarChar).Value = enDocumento.RutaArchivo;
+                            }
+                            if (string.IsNullOrWhiteSpace(enDocumento.NombreOriginal))
+                            {
+                                sqlCmd.Parameters.Add("@NombreOriginal", SqlDbType.VarChar).Value = DBNull.Value;
+                            }
+                            else
+                            {
+                                sqlCmd.Parameters.Add("@NombreOriginal", SqlDbType.VarChar).Value = enDocumento.NombreOriginal;
+                            }
                             sqlCmd.ExecuteNonQuery();
                             tran.Commit();
                         }
@@ -259,7 +299,7 @@ namespace Digitalizacion.DA
             using (var sqlCon = new SqlConnection(CadenaDeConexion))
             {
                 sqlCon.Open();
-                using (var sqlCmd = new SqlCommand("SELECT D.IdDocumento, P.IdProceso, P.Prioridad,D.NombreDocumento,D.TipoDocumento,D.FormatoDocumento,D.FechaDigitalizacion,D.Estado_Documento FROM Documento D INNER JOIN Proceso P ON D.IdProceso = P.IdProceso", sqlCon))
+                using (var sqlCmd = new SqlCommand("SELECT D.IdDocumento, P.IdProceso, P.Prioridad,D.NombreDocumento,D.TipoDocumento,D.FormatoDocumento,D.FechaDigitalizacion,D.Estado_Documento,D.RutaArchivo,D.NombreOriginal FROM Documento D INNER JOIN Proceso P ON D.IdProceso = P.IdProceso", sqlCon))
                 {
                     using (var dr = sqlCmd.ExecuteReader())
                     {
@@ -274,7 +314,10 @@ namespace Digitalizacion.DA
                                 FormatoDocumento = Convert.ToString(dr["FormatoDocumento"]) ?? "",
                                 FechaDigitalizacion = dr["FechaDigitalizacion"] != DBNull.Value ? Convert.ToDateTime(dr["FechaDigitalizacion"]) : DateTime.MinValue,
                                 Estado_Documento = Convert.ToString(dr["Estado_Documento"]) ?? "",
-                                Prioridad = Convert.ToString(dr["Prioridad"]) ?? ""
+                                Prioridad = Convert.ToString(dr["Prioridad"]) ?? "",
+                                RutaArchivo = Convert.ToString(dr["RutaArchivo"]) ?? "",
+                                NombreOriginal = Convert.ToString(dr["NombreOriginal"]) ?? ""
+
                             }; 
                             lista.Add(documentoDTO);
                         }
@@ -316,6 +359,8 @@ namespace Digitalizacion.DA
                                 FechaDigitalizacion = dr["FechaDigitalizacion"] != DBNull.Value ? Convert.ToDateTime(dr["FechaDigitalizacion"]) : DateTime.MinValue,
                                 Estado_Documento = Convert.ToString(dr["Estado_Documento"]) ?? "",
                                 Prioridad = Convert.ToString(dr["Prioridad"]) ?? "",
+                                RutaArchivo = Convert.ToString(dr["RutaArchivo"]) ?? "",
+                                NombreOriginal = Convert.ToString(dr["NombreOriginal"]) ?? "",
 
                                 TotalRegistros = Convert.ToInt32(dr["TotalRegistros"])
                             };

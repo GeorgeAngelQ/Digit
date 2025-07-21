@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Digitalizacion.EN
+namespace Digitalizacion.UI.Models
 {
-    public class DocumentoDTO
+    public class DocumentoModel
     {
+        [Key]
         public int IdDocumento { get; set; }
         public int IdProceso { get; set; }
         public string NombreDocumento { get; set; }
@@ -15,11 +12,7 @@ namespace Digitalizacion.EN
         public string FormatoDocumento { get; set; }
         public DateTime FechaDigitalizacion { get; set; }
         public string Estado_Documento { get; set; }
-
-        public string Prioridad { get; set; }
-        public string RutaArchivo { get; set; }
+        public string? RutaArchivo { get; set; }
         public string NombreOriginal { get; set; }
-
-        public int TotalRegistros { get; set; }
     }
 }

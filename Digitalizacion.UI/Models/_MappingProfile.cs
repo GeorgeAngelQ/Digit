@@ -21,6 +21,9 @@ namespace Digitalizacion.UI.Models
 
             CreateMap<ProcesoModel, Proceso>();
             CreateMap<Proceso, ProcesoModel>();
+
+            CreateMap<DocumentoModel, Documento>();
+            CreateMap<Documento, DocumentoModel>();
         }
     }
 }

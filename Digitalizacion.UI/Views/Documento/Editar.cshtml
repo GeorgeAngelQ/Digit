@@ -1,0 +1,57 @@
+﻿@model Digitalizacion.UI.Models.DocumentoModel
+
+<form id="DocumentoEditarFrm">
+    <header class="container text-center mb-4">
+        <div class="row">
+            <div class="col">
+                <h3>Editar Documento</h3>
+            </div>
+            <div class="col text-end">
+                <p>@ViewBag.Mensaje</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <input type="hidden" id="IdDocumento" value="@Model.IdDocumento" />
+
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-6">
+                <label for="NombreDocumentoTxt" class="form-label">Nombre del Documento</label>
+                <input id="NombreDocumentoTxt" type="text" class="form-control" value="@Model.NombreDocumento" />
+            </div>
+        </div>
+
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-6">
+                <label for="TipoDocumentoTxt" class="form-label">Tipo de Documento</label>
+                <input id="TipoDocumentoTxt" type="text" class="form-control" value="@Model.TipoDocumento" />
+            </div>
+        </div>
+
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-6">
+                <label for="FechaRegistroTxt" class="form-label">Fecha de Registro</label>
+                <input id="FechaRegistroTxt" type="date" class="form-control" value="@Model.FechaDigitalizacion.ToString("yyyy-MM-dd")" />
+            </div>
+        </div>
+
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-6">
+                <label for="EstadoTxt" class="form-label">Estado</label>
+                <input id="EstadoTxt" type="text" class="form-control" value="@Model.Estado_Documento" />
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-auto">
+                <button id="ActualizarBtn" type="button" class="btn btn-success me-2">Actualizar</button>
+                <button type="button" class="btn btn-danger" onclick="window.location.href='@Url.Action("Index", "Documento")'">Cancelar</button>
+            </div>
+        </div>
+    </main>
+</form>
+
+@section Scripts {
+    <script src="~/views/documento/editar.js"></script>
+}
